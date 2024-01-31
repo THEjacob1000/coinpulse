@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [currency, setCurrency] = useState({
@@ -26,6 +27,7 @@ const Navbar = () => {
     { symbol: "¥", currency: "JPY" },
     { symbol: "$", currency: "AUD" },
   ];
+  const pathname = usePathname();
   return (
     <nav className="flex justify-around items-center py-6 bg-secondary">
       <div className="flex items-center justify-between">
@@ -36,16 +38,26 @@ const Navbar = () => {
       </div>
       <div className="w-[265px] h-12 justify-start items-start gap-6 inline-flex">
         <Button
-          className="px-4 py-3 rounded-md justify-center items-center gap-2.5 flex"
+          className="px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40"
           variant={"ghost"}
         >
           <Home className="w-6 h-6" />
-          <div className=" text-base font-medium font-['Space Grotesk']">
+          <div
+            className={cn(
+              "text-base font-medium font-['Space Grotesk']",
+              pathname === "/" &&
+                "font-bold underline-offset-4 underline"
+            )}
+          >
             Home
           </div>
         </Button>
         <Button
-          className="px-4 py-3 rounded-md justify-center items-center gap-2 flex"
+          className={cn(
+            "px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40",
+            pathname === "/portfolio" &&
+              "font-bold underline-offset-4 underline"
+          )}
           variant={"ghost"}
         >
           <Layers className="w-6 h-6" />
@@ -66,7 +78,7 @@ const Navbar = () => {
               <ChevronDown className="w-4 h-4 ml-2 mt-1" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-card/40 border-input/5">
+          <DropdownMenuContent className="bg-card/50 border-input/5">
             {currencies
               .filter((c) => c.currency !== currency.currency)
               .map((c, index) => (

@@ -15,7 +15,7 @@ const fetchCoins = async () => {
       offset: "0",
     },
     headers: {
-      "X-RapidAPI-Key": process.env.COINRANKING_API_KEY,
+      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
     },
   };
