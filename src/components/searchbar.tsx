@@ -6,15 +6,6 @@ import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Searchbar = () => {
-  const [coins, setCoins] = useState([]);
-  useEffect(() => {
-    const getCoins = async () => {
-      const res = await fetch("/api/coins");
-      const coins = await res.json();
-      setCoins(coins.data.coins);
-    };
-    getCoins();
-  }, []);
   return (
     <>
       <div className="w-1/2 hidden md:block">

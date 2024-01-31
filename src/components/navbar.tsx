@@ -2,7 +2,7 @@
 import { ChevronDown, Home, Layers } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import Searchbar from "./searchbar";
+import Searchbar from "./SearchBar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useState } from "react";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "./ModeToggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
