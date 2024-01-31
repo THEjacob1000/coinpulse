@@ -55,7 +55,7 @@ const Navbar = () => {
         </Button>
       </div>
       <div className="flex justify-between w-1/4 items-center">
-        <Searchbar />:{" "}
+        <Searchbar />
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
             <div className="flex bg-card/40 px-3 py-2 rounded-lg h-10">

@@ -30,7 +30,7 @@ export function ModeToggle() {
       variant="outline"
       size="icon"
       onClick={() => handleToggle()}
-      className="bg-card/40 hover:bg-card/50"
+      className="bg-card/40 hover:bg-card/50 border-outline/5"
       aria-label="Toggle theme"
     >
       {theme === "light" ? (
