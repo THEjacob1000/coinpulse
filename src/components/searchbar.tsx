@@ -15,9 +15,12 @@ const Searchbar = () => {
     getCoins();
   }, []);
   return (
-    <div className="w-1/6">
+    <div className="w-1/2">
       <Search className="w-4 h-4 absolute mt-3 ml-2" />
-      <Input placeholder="Search" className="pl-10" />
+      <Input
+        placeholder="Search"
+        className="pl-10 bg-card/40 border-input/5"
+      />
     </div>
   );
 };

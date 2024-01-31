@@ -5,9 +5,18 @@ import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   const handleToggle = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -21,14 +30,14 @@ export function ModeToggle() {
       variant="outline"
       size="icon"
       onClick={() => handleToggle()}
+      className="bg-card/40 hover:bg-card/50"
+      aria-label="Toggle theme"
     >
       {theme === "light" ? (
-        <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <MoonIcon className="h-4 w-4 transition-all dark:hidden" />
       ) : (
-        <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+        <SunIcon className="h-4 w-4 transition-all hidden dark:block" />
       )}
-
-      <span className="sr-only">Toggle theme</span>
     </Button>
   );
 }
