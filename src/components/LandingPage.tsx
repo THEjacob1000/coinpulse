@@ -6,7 +6,7 @@ import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
 import { cn } from "@/lib/utils";
 import CoinCarousel from "./CoinCarousel";
-import { LineChart } from "lucide-react";
+import { LineChart, X } from "lucide-react";
 import { useCryptoStore } from "@/lib/store";
 
 const LandingPage = () => {
@@ -78,7 +78,11 @@ const LandingPage = () => {
               variant={"secondary"}
               onClick={toggleCompare}
             >
-              <LineChart className="mr-3 h-8 w-8" strokeWidth={2} />
+              {compare ? (
+                <X className="mr-3 h-8 w-8" strokeWidth={2} />
+              ) : (
+                <LineChart className="mr-3 h-8 w-8" strokeWidth={2} />
+              )}
               {compare ? "Stop Comparing" : "Compare"}
             </Button>
           </div>
