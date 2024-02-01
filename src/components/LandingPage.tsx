@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
+import PricesChart from "./PricesChart";
+import VolumeChart from "./VolumeChart";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
@@ -46,7 +48,10 @@ const LandingPage = () => {
         </Button>
       </div>
       {pageType === "coins" ? (
-        <div>{marketCaps}</div>
+        <div className="flex justify-around">
+          <PricesChart prices={prices} />
+          <VolumeChart totalVolumes={totalVolumes} />
+        </div>
       ) : (
         <div>Converter</div>
       )}

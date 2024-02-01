@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "flex justify-between md:justify-around items-center py-6 bg-secondary min-w-full",
+        "flex justify-between md:justify-around items-center py-6 min-w-full",
         theme === "light" ? "bg-white" : "bg-background"
       )}
     >
