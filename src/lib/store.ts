@@ -26,7 +26,10 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
   changeCompare: () =>
     set((state) => {
       const newMode = !state.compare;
-      return { compare: newMode };
+      const newCoin: string[] = useCryptoStore
+        .getState()
+        .selectedCoin.slice(0, 1);
+      return { compare: newMode, selectedCoin: newCoin };
     }),
   changeSelectedCoin: (coin) =>
     set((state) => {
