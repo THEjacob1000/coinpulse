@@ -44,44 +44,46 @@ const LandingPage = () => {
     setCompare(!compare);
   };
   return (
-    <div className="mx-8 my-24">
-      <div className="relative w-full md:w-1/4 h-12 p-1 bg-card rounded-md flex items-center gap-1 mb-20 overflow-hidden mx-8">
-        <div
-          className={`absolute top-0 ${sliderPosition} h-full w-1/2 bg-primary transition-all duration-300 ease-in-out rounded-md`}
-          aria-hidden="true"
-        ></div>
-        <button
-          className={cn(
-            "relative w-full font-semibold z-10",
-            pageType === "coins" && "text-primary-foreground"
-          )}
-          onClick={() => setPageType("coins")}
-        >
-          Coins
-        </button>
-        <button
-          className={cn(
-            "relative w-full font-semibold z-10 transition-colors duration-300 ease-in-out",
-            pageType === "converter" && "text-primary-foreground"
-          )}
-          onClick={() => setPageType("converter")}
-        >
-          Converter
-        </button>
+    <div className="mx-8 my-12">
+      <div className="relative w-full md:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
+        <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
+          <div
+            className={`absolute top-0 ${sliderPosition} h-full w-1/2 bg-primary transition-all duration-300 ease-in-out rounded-md`}
+            aria-hidden="true"
+          ></div>
+          <button
+            className={cn(
+              "relative w-full font-semibold z-10",
+              pageType === "coins" && "text-primary-foreground"
+            )}
+            onClick={() => setPageType("coins")}
+          >
+            Coins
+          </button>
+          <button
+            className={cn(
+              "relative w-full font-semibold z-10 transition-colors duration-300 ease-in-out",
+              pageType === "converter" && "text-primary-foreground"
+            )}
+            onClick={() => setPageType("converter")}
+          >
+            Converter
+          </button>
+        </div>
       </div>
       {pageType === "coins" ? (
         <div className="flex flex-col">
-          <div className="w-full ml-8 pr-16 justify-between flex my-4 items-end">
+          <div className="w-full ml-8 pr-16 justify-between flex mb-0 items-end">
             <p>Select the currency to view statistics</p>
             <Button
-              className="p-8 text-lg"
+              className="p-6 text-md"
               variant={"secondary"}
               onClick={toggleCompare}
             >
               {compare ? (
-                <X className="mr-3 h-8 w-8" strokeWidth={2} />
+                <X className="mr-3 h-6 w-6" strokeWidth={2} />
               ) : (
-                <LineChart className="mr-3 h-8 w-8" strokeWidth={2} />
+                <LineChart className="mr-3 h-6 w-6" strokeWidth={2} />
               )}
               {compare ? "Stop Comparing" : "Compare"}
             </Button>

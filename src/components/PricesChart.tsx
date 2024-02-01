@@ -123,7 +123,7 @@ const PricesChart = ({ prices }: PriceChartProps) => {
   return (
     <div
       className={cn(
-        "flex-0 lg:w-1/2 w-full p-12 rounded-lg",
+        "flex-0 lg:w-5/12 w-full p-12 rounded-lg",
         theme === "light" ? "bg-white" : "bg-[#191932]"
       )}
     >
@@ -147,7 +147,7 @@ const PricesChart = ({ prices }: PriceChartProps) => {
         <canvas
           ref={chartRef}
           id="priceChart"
-          className="h-48 md:h-96"
+          className="h-48 md:h-64"
         />
       </div>
     </div>

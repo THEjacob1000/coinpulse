@@ -121,7 +121,7 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
   return (
     <div
       className={cn(
-        "flex-0 lg:w-1/2 w-full p-12 rounded-lg",
+        "flex-0 lg:w-5/12 w-full p-12 rounded-lg",
         theme === "light" ? "bg-white" : "bg-[#1E1932]"
       )}
     >
@@ -151,7 +151,7 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
         <canvas
           ref={chartRef}
           id="volumeChart"
-          className="h-48 md:h-96"
+          className="h-48 md:h-64"
         />
       </div>
     </div>

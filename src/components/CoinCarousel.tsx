@@ -30,7 +30,7 @@ const CoinCarousel = () => {
     fetchCryptoData();
   }, []);
   return (
-    <div className="my-12 mx-8">
+    <div className="mb-12 mt-4 mx-8">
       <Carousel
         opts={{
           align: "start",
