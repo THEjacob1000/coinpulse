@@ -2,7 +2,6 @@ import { useCryptoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { useState } from "react";
 
 export type Coin = {
   ath: number;
@@ -47,19 +46,24 @@ type CoinCardProps = {
   coin: Coin;
 };
 const CoinCard = ({ coin }: CoinCardProps) => {
-  const [selected, setSelected] = useState<boolean>(
-    useCryptoStore.getState().selectedCoin.includes(coin.id)
+  const selectedCoins = useCryptoStore((state) => state.selectedCoin);
+  const changeSelectedCoin = useCryptoStore(
+    (state) => state.changeSelectedCoin
   );
+
+  const isSelected = selectedCoins.includes(coin.id);
+
   const toggleSelected = () => {
-    const { changeSelectedCoin } = useCryptoStore.getState();
     changeSelectedCoin(coin.id);
-    setSelected(!selected);
   };
 
   return (
     <Button
-      variant={selected ? "default" : "secondary"}
-      className="flex justify-center h-20 w-full p-4 rounded-md gap-4 font-['Space Grotesk']"
+      variant={isSelected ? "default" : "secondary"}
+      className={cn(
+        "flex justify-center h-20 w-full p-4 rounded-md gap-4 font-['Space Grotesk']",
+        !isSelected && "bg-secondary/40"
+      )}
       onClick={toggleSelected}
     >
       <Image src={coin.image} alt={coin.id} width={50} height={50} />

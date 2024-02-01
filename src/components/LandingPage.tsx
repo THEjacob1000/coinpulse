@@ -6,13 +6,17 @@ import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
 import { cn } from "@/lib/utils";
 import CoinCarousel from "./CoinCarousel";
+import { LineChart } from "lucide-react";
+import { useCryptoStore } from "@/lib/store";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
   const [marketCaps, setMarketCaps] = useState<number[][]>();
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
-  const [coin, setCoin] = useState<string | string[]>("bitcoin");
+  const [compare, setCompare] = useState<boolean>(
+    useCryptoStore.getState().compare
+  );
   const sliderPosition =
     pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
 
@@ -35,6 +39,10 @@ const LandingPage = () => {
     };
     fetchBitcoinData();
   }, []);
+  const toggleCompare = () => {
+    useCryptoStore.getState().changeCompare();
+    setCompare(!compare);
+  };
   return (
     <div className="mx-8 my-24">
       <div className="relative w-full md:w-1/4 h-12 p-1 bg-card rounded-md flex items-center gap-1 mb-20 overflow-hidden mx-8">
@@ -63,8 +71,19 @@ const LandingPage = () => {
       </div>
       {pageType === "coins" ? (
         <div className="flex flex-col">
+          <div className="w-full ml-8 pr-16 justify-between flex my-4 items-end">
+            <p>Select the currency to view statistics</p>
+            <Button
+              className="p-8 text-lg"
+              variant={"secondary"}
+              onClick={toggleCompare}
+            >
+              <LineChart className="mr-3 h-8 w-8" strokeWidth={2} />
+              {!compare ? "Stop Comparing" : "Compare"}
+            </Button>
+          </div>
           <CoinCarousel />
-          <div className="flex md:flex-row flex-col justify-around gap-2.5 items-center md:mx-8 mx-4">
+          <div className="flex md:flex-row flex-col justify-around gap-5 items-center md:mx-8 mx-4">
             <PricesChart prices={prices} />
             <VolumeChart totalVolumes={totalVolumes} />
           </div>
