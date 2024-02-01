@@ -2,6 +2,7 @@ import { useCryptoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 export type Coin = {
   ath: number;
@@ -46,6 +47,7 @@ type CoinCardProps = {
   coin: Coin;
 };
 const CoinCard = ({ coin }: CoinCardProps) => {
+  const { toast } = useToast();
   const selectedCoins = useCryptoStore((state) => state.selectedCoin);
   const changeSelectedCoin = useCryptoStore(
     (state) => state.changeSelectedCoin
@@ -54,7 +56,15 @@ const CoinCard = ({ coin }: CoinCardProps) => {
   const isSelected = selectedCoins.includes(coin.id);
 
   const toggleSelected = () => {
-    changeSelectedCoin(coin.id);
+    try {
+      changeSelectedCoin(coin.id);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   };
 
   return (

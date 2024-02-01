@@ -79,7 +79,7 @@ const LandingPage = () => {
               onClick={toggleCompare}
             >
               <LineChart className="mr-3 h-8 w-8" strokeWidth={2} />
-              {!compare ? "Stop Comparing" : "Compare"}
+              {compare ? "Stop Comparing" : "Compare"}
             </Button>
           </div>
           <CoinCarousel />

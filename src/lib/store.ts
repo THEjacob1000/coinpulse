@@ -15,7 +15,7 @@ interface CryptoState {
   compare: boolean;
   selectedCoin: string[];
   changeCompare: () => void;
-  changeSelectedCoin: (coin: string) => void;
+  changeSelectedCoin: (coin: string) => void | Error;
 }
 
 export const useCryptoStore = create<CryptoState>()((set) => ({
@@ -37,13 +37,18 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
             ? state.selectedCoin.filter((id) => id !== coin)
             : [...state.selectedCoin, coin]
         );
+        const newSelectedCoin = isSelected
+          ? state.selectedCoin.filter((id) => id !== coin).length > 0
+            ? state.selectedCoin.filter((id) => id !== coin)
+            : ["bitcoin"]
+          : [...state.selectedCoin, coin].length > 2
+          ? new Error("Exceeded maximum selected coins")
+          : [...state.selectedCoin, coin];
+        if (newSelectedCoin instanceof Error) {
+          throw new Error("Exceeded maximum selected coins");
+        }
         return {
-          selectedCoin: isSelected
-            ? state.selectedCoin.filter((id) => id !== coin).length >
-              0
-              ? state.selectedCoin.filter((id) => id !== coin)
-              : ["bitcoin"]
-            : [...state.selectedCoin, coin],
+          selectedCoin: newSelectedCoin,
         };
       } else {
         console.log(
