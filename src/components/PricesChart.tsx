@@ -40,7 +40,7 @@ const PricesChart = ({ prices }: PriceChartProps) => {
                     0,
                     0,
                     0,
-                    250
+                    350
                   );
                   gradient.addColorStop(
                     0,
@@ -123,7 +123,7 @@ const PricesChart = ({ prices }: PriceChartProps) => {
   return (
     <div
       className={cn(
-        "flex-0 w-5/12 p-12 rounded-lg",
+        "flex-0 lg:w-1/2 w-full p-12 rounded-lg",
         theme === "light" ? "bg-white" : "bg-[#191932]"
       )}
     >
@@ -147,7 +147,7 @@ const PricesChart = ({ prices }: PriceChartProps) => {
         <canvas
           ref={chartRef}
           id="priceChart"
-          style={{ height: "250px", width: "100%" }}
+          className="h-48 md:h-96"
         />
       </div>
     </div>

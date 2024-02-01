@@ -10,6 +10,9 @@ const LandingPage = () => {
   const [marketCaps, setMarketCaps] = useState<number[][]>();
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
+  const sliderPosition =
+    pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
+
   useEffect(() => {
     const fetchBitcoinData = async () => {
       const options = {
@@ -30,25 +33,27 @@ const LandingPage = () => {
     fetchBitcoinData();
   }, []);
   return (
-    <div className="mx-24 my-24">
-      <div className="w-1/4 p-1 bg-card rounded-md justify-start items-start inline-flex gap-1 mb-20">
-        <Button
-          className="w-full font-semibold"
-          variant={pageType !== "coins" ? "ghost" : "default"}
+    <div className="mx-8 my-24">
+      <div className="relative w-full md:w-1/4 h-12 p-1 bg-card rounded-md flex items-center gap-1 mb-20 overflow-hidden mx-8">
+        <div
+          className={`absolute top-0 ${sliderPosition} h-full w-1/2 bg-primary transition-all duration-300 ease-in-out rounded-md`}
+          aria-hidden="true"
+        ></div>
+        <button
+          className="relative w-full font-semibold z-10"
           onClick={() => setPageType("coins")}
         >
           Coins
-        </Button>
-        <Button
-          className="w-full font-semibold"
-          variant={pageType !== "converter" ? "ghost" : "default"}
+        </button>
+        <button
+          className="relative w-full font-semibold z-10"
           onClick={() => setPageType("converter")}
         >
           Converter
-        </Button>
+        </button>
       </div>
       {pageType === "coins" ? (
-        <div className="flex justify-around">
+        <div className="flex md:flex-row flex-col justify-around gap-2.5 mx-8 w-10/12 items-center">
           <PricesChart prices={prices} />
           <VolumeChart totalVolumes={totalVolumes} />
         </div>

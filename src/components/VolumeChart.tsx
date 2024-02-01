@@ -23,13 +23,14 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
     if (chartRef.current) {
       const chartContext = chartRef.current.getContext("2d");
       if (chartContext) {
-        const twoWeeksAgo = startOfDay(subDays(new Date(), 14)); // Calculate the date two weeks ago
-        const today = startOfDay(new Date()); // Use today's date as the end of the range
-
+        const twoWeeksAgo = startOfDay(subDays(new Date(), 14));
+        const today = startOfDay(new Date());
         chartInstanceRef.current = new Chart(chartContext, {
           type: "bar",
           data: {
-            labels: totalVolumes.map((volume) => volume[0]),
+            labels: totalVolumes
+              .slice(0, -1)
+              .map((volume) => volume[0]),
             datasets: [
               {
                 label: "Bitcoin Volume",
@@ -48,10 +49,12 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
                   );
                   return gradient;
                 },
-                data: totalVolumes.map((volume) => volume[1]),
+                data: totalVolumes
+                  .slice(0, -1)
+                  .map((volume) => volume[1]),
                 borderWidth: 1,
                 borderRadius: 5,
-                barThickness: 25,
+                barPercentage: 1,
               },
             ],
           },
@@ -118,7 +121,7 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
   return (
     <div
       className={cn(
-        "flex-0 w-5/12 p-12 rounded-lg",
+        "flex-0 lg:w-1/2 w-full p-12 rounded-lg",
         theme === "light" ? "bg-white" : "bg-[#1E1932]"
       )}
     >
@@ -144,11 +147,11 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="relative">
         <canvas
           ref={chartRef}
           id="volumeChart"
-          style={{ height: "250px", width: "100%" }}
+          className="h-48 md:h-96"
         />
       </div>
     </div>
