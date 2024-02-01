@@ -4,12 +4,15 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
+import { cn } from "@/lib/utils";
+import CoinCarousel from "./CoinCarousel";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
   const [marketCaps, setMarketCaps] = useState<number[][]>();
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
+  const [coin, setCoin] = useState<string | string[]>("bitcoin");
   const sliderPosition =
     pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
 
@@ -22,7 +25,7 @@ const LandingPage = () => {
 
       try {
         const response = await axios.request(options);
-        console.log("Response data:", response.data);
+        // console.log("Response data:", response.data);
         setMarketCaps(response.data.market_caps);
         setPrices(response.data.prices);
         setTotalVolumes(response.data.total_volumes);
@@ -40,22 +43,31 @@ const LandingPage = () => {
           aria-hidden="true"
         ></div>
         <button
-          className="relative w-full font-semibold z-10"
+          className={cn(
+            "relative w-full font-semibold z-10",
+            pageType === "coins" && "text-primary-foreground"
+          )}
           onClick={() => setPageType("coins")}
         >
           Coins
         </button>
         <button
-          className="relative w-full font-semibold z-10"
+          className={cn(
+            "relative w-full font-semibold z-10 transition-colors duration-300 ease-in-out",
+            pageType === "converter" && "text-primary-foreground"
+          )}
           onClick={() => setPageType("converter")}
         >
           Converter
         </button>
       </div>
       {pageType === "coins" ? (
-        <div className="flex md:flex-row flex-col justify-around gap-2.5 mx-8 w-10/12 items-center">
-          <PricesChart prices={prices} />
-          <VolumeChart totalVolumes={totalVolumes} />
+        <div className="flex flex-col">
+          <CoinCarousel />
+          <div className="flex md:flex-row flex-col justify-around gap-2.5 items-center md:mx-8 mx-4">
+            <PricesChart prices={prices} />
+            <VolumeChart totalVolumes={totalVolumes} />
+          </div>
         </div>
       ) : (
         <div>Converter</div>

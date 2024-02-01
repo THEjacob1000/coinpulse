@@ -14,13 +14,13 @@ import { ModeToggle } from "./ModeToggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { useCryptoStore, Currencies, Currency } from "@/lib/store";
 
 const Navbar = () => {
-  const [currency, setCurrency] = useState({
-    symbol: "$",
-    currency: "USD",
-  });
-  const currencies = [
+  const [currency, setCurrency] = useState(
+    useCryptoStore.getState().currency
+  );
+  const currencies: Currencies = [
     { symbol: "$", currency: "USD" },
     { symbol: "₹", currency: "INR" },
     { symbol: "€", currency: "EUR" },
@@ -30,6 +30,10 @@ const Navbar = () => {
   ];
   const pathname = usePathname();
   const { theme } = useTheme();
+  const changeCurrency = (currency: Currency) => {
+    setCurrency(currency);
+    useCryptoStore.getState().changeCurrency(currency);
+  };
   return (
     <nav
       className={cn(
@@ -38,7 +42,7 @@ const Navbar = () => {
       )}
     >
       <div className="flex items-center justify-between">
-        <Image src="/logo.svg" alt="Logo" width={64} height={38} />
+        <Image src="/logo.svg" alt="Logo" width={72} height={40} />
         <div className="text-foreground text-xl font-bold ml-8 md:block hidden">
           CoinPulse
         </div>
@@ -91,7 +95,7 @@ const Navbar = () => {
               .map((c, index) => (
                 <DropdownMenuItem
                   key={index}
-                  onClick={() => setCurrency(c)}
+                  onClick={() => changeCurrency(c)}
                   className="flex items-center justify-between hover:cursor-pointer"
                 >
                   ( {c.symbol} ){" "}
