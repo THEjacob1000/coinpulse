@@ -31,25 +31,21 @@ const PricesCompare = ({ prices, type }: PriceChartProps) => {
         const datasets = [
           {
             label: pricesData.name,
-            borderColor: "rgba(120, 120, 250, 1)",
-            backgroundColor: "rgba(116, 116, 242, 0.1)",
+            borderColor:
+              type === 1
+                ? "rgba(120, 120, 250, 1)"
+                : "rgba(216, 120, 250, 1)",
+            backgroundColor:
+              type === 1
+                ? "rgba(116, 116, 242, 0.1)"
+                : "rgba(216, 120, 250, 0.1)",
             data: pricesData.data,
             fill: true,
             tension: 0.5,
             pointRadius: 0,
           },
         ];
-        if (type === 2) {
-          datasets.push({
-            label: pricesData.name,
-            borderColor: "rgba(216, 120, 250, 1)",
-            backgroundColor: "rgba(216, 120, 250, 0.1)",
-            data: pricesData.data,
-            fill: true,
-            tension: 0.5,
-            pointRadius: 0,
-          });
-        }
+
         chartInstanceRef.current = new Chart(chartContext, {
           type: "line",
           data: {

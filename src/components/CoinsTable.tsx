@@ -21,7 +21,7 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
       coin.circulating_supply,
       coin.max_supply,
     ],
-    lastWeekData: coin.sparkline_in_7d.price,
+    sparkline: coin.sparkline_in_7d.price,
   }));
   return (
     <div className="container mx-auto py-10">

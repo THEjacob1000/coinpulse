@@ -51,14 +51,16 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
             datasets: [
               {
                 label: "Bitcoin Price",
+                data: prices.map((price) => price[1]),
                 borderColor: "rgba(120, 120, 250, 1)",
                 backgroundColor: (context) => {
                   const ctx = context.chart.ctx;
+                  const chartHeight = ctx.canvas.clientHeight || 80;
                   const gradient = ctx.createLinearGradient(
                     0,
                     0,
                     0,
-                    350
+                    chartHeight
                   );
                   gradient.addColorStop(
                     0,
@@ -70,7 +72,6 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
                   );
                   return gradient;
                 },
-                data: prices.map((price) => price[1]),
                 fill: true,
                 tension: 0.5,
                 pointRadius: 0,

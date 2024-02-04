@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Progress } from "./ui/progress";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "./ui/button";
+import Sparkline from "./Sparkline";
 
 export type TableCoin = {
   id: number;
@@ -15,7 +16,7 @@ export type TableCoin = {
   weekChange: string;
   volumeMarketCap: [number, number];
   circulatingTotalSupply: [number, number];
-  lastWeekData: number[];
+  sparkline: number[];
 };
 
 export const columns: ColumnDef<TableCoin>[] = [
@@ -239,5 +240,17 @@ export const columns: ColumnDef<TableCoin>[] = [
   {
     id: "sparkline",
     header: "Last 7d",
+    cell: ({ row }) => {
+      const sparklineData = row.original.sparkline;
+      const coinName = row.original.name[1];
+      return (
+        <div className="h-20">
+          <Sparkline
+            lastWeekData={sparklineData}
+            coinName={coinName}
+          />
+        </div>
+      );
+    },
   },
 ];
