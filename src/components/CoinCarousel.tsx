@@ -14,19 +14,14 @@ const CoinCarousel = () => {
   const [cryptoData, setCryptoData] = useState<Coin[]>([]);
   useEffect(() => {
     const fetchCryptoData = async () => {
-      const options = {
-        method: "GET",
-        url: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d",
-      };
-
       try {
-        const response = await axios.request(options);
-        // console.log("Response data:", response.data);
+        const response = await axios.get<Coin[]>("/api/cryptoData");
         setCryptoData(response.data);
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching crypto data:", error);
       }
     };
+
     fetchCryptoData();
   }, []);
   return (

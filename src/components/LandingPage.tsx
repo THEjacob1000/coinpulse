@@ -22,17 +22,12 @@ const LandingPage = () => {
 
   useEffect(() => {
     const fetchBitcoinData = async () => {
-      const options = {
-        method: "GET",
-        url: "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=daily",
-      };
-
       try {
-        const response = await axios.request(options);
-        // console.log("Response data:", response.data);
-        setMarketCaps(response.data.market_caps);
-        setPrices(response.data.prices);
-        setTotalVolumes(response.data.total_volumes);
+        const response = await axios.get("/api/bitcoinData"); // Adjust the path if your API route's path is different
+        const { market_caps, prices, total_volumes } = response.data;
+        setMarketCaps(market_caps);
+        setPrices(prices);
+        setTotalVolumes(total_volumes);
       } catch (error) {
         console.error("Error:", error);
       }
