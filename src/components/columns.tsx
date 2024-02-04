@@ -36,7 +36,8 @@ export const columns: ColumnDef<TableCoin>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorFn: (row) => row.name[1],
+    id: "name",
     header: ({ column }) => {
       return (
         <Button
@@ -50,24 +51,24 @@ export const columns: ColumnDef<TableCoin>[] = [
         </Button>
       );
     },
-    cell: ({ getValue }) => {
-      const value = getValue() as TableCoin["name"];
-      const imageUrl = value[0] as string;
-      const name = value[1] as string;
+    cell: (info) => {
+      const [imageUrl, name] = info.row.original.name;
       return (
         <div className="flex items-center space-x-2">
           <Image
             src={imageUrl}
             alt={name}
-            className="w-6 h-6 rounded-full"
-            height={24}
             width={24}
-          />{" "}
+            height={24}
+            className="rounded-full"
+          />
           <span>{name}</span>
         </div>
       );
     },
+    filterFn: "auto",
   },
+
   {
     accessorKey: "price",
     header: ({ column }) => {
