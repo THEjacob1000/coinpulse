@@ -13,8 +13,7 @@ export async function GET() {
   const now = new Date();
   if (
     !lastUpdate ||
-    now.getTime() - new Date(lastUpdate.date).getTime() >
-      24 * 60 * 60 * 1000
+    now.getTime() - new Date(lastUpdate.date).getTime() > 3600000
   ) {
     const response = await axios.get(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d"

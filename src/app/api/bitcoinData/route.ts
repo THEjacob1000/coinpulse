@@ -14,7 +14,7 @@ export async function GET() {
   if (
     !lastBitcoinUpdate ||
     now.getTime() - new Date(lastBitcoinUpdate.date).getTime() >
-      24 * 60 * 60 * 1000
+      3600000
   ) {
     const url =
       "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=daily";
