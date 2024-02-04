@@ -1,21 +1,25 @@
-import { useEffect, useRef } from "react";
-import Chart from "chart.js/auto";
-import "chartjs-adapter-date-fns";
-import { startOfToday, subMonths, format, subDays } from "date-fns";
+"use client";
+import { Chart } from "chart.js/auto";
 import { useTheme } from "next-themes";
+import { useEffect, useRef } from "react";
+import { Coin } from "./CoinCard";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 interface PriceChartProps {
-  prices: number[][];
-  timeframe: number;
+  prices: Coin;
+  type: 1 | 2;
 }
 
-const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
+const PricesCompare = ({ prices, type }: PriceChartProps) => {
   const { theme } = useTheme();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
   useEffect(() => {
-    const timeframes = ["1D", "7D", "14D", "1M"];
+    const pricesData = {
+      name: prices.id,
+      data: prices.sparkline_in_7d.price,
+    };
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
       chartInstanceRef.current = null;
@@ -24,58 +28,33 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
     if (chartRef.current) {
       const chartContext = chartRef.current.getContext("2d");
       if (chartContext) {
-        let startDate;
-        switch (timeframes[timeframe]) {
-          case "1D":
-            startDate = subDays(startOfToday(), 1);
-            break;
-          case "7D":
-            startDate = subDays(startOfToday(), 7);
-            break;
-          case "14D":
-            startDate = subDays(startOfToday(), 14);
-            break;
-          case "1M":
-            startDate = subMonths(startOfToday(), 1);
-            break;
-          default:
-            startDate = subMonths(startOfToday(), 1);
-            break;
+        const datasets = [
+          {
+            label: pricesData.name,
+            borderColor: "rgba(120, 120, 250, 1)",
+            backgroundColor: "rgba(116, 116, 242, 0.1)",
+            data: pricesData.data,
+            fill: true,
+            tension: 0.5,
+            pointRadius: 0,
+          },
+        ];
+        if (type === 2) {
+          datasets.push({
+            label: pricesData.name,
+            borderColor: "rgba(216, 120, 250, 1)",
+            backgroundColor: "rgba(216, 120, 250, 0.1)",
+            data: pricesData.data,
+            fill: true,
+            tension: 0.5,
+            pointRadius: 0,
+          });
         }
-        const today = startOfToday(); // Use today's date as the end of the range
-
         chartInstanceRef.current = new Chart(chartContext, {
           type: "line",
           data: {
-            labels: prices.map((price) => price[0]),
-            datasets: [
-              {
-                label: "Bitcoin Price",
-                borderColor: "rgba(120, 120, 250, 1)",
-                backgroundColor: (context) => {
-                  const ctx = context.chart.ctx;
-                  const gradient = ctx.createLinearGradient(
-                    0,
-                    0,
-                    0,
-                    350
-                  );
-                  gradient.addColorStop(
-                    0,
-                    "rgba(116, 116, 242, 0.6)"
-                  );
-                  gradient.addColorStop(
-                    1,
-                    "rgba(116, 116, 242, 0.01)"
-                  );
-                  return gradient;
-                },
-                data: prices.map((price) => price[1]),
-                fill: true,
-                tension: 0.5,
-                pointRadius: 0,
-              },
-            ],
+            labels: pricesData.data.map((_, index) => index),
+            datasets,
           },
           options: {
             scales: {
@@ -88,8 +67,6 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
                     month: "MMM yyyy",
                   },
                 },
-                min: startDate.getTime(),
-                max: today.getTime(),
                 ticks: {
                   autoSkip: true,
                   maxTicksLimit: 3,
@@ -117,9 +94,6 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
               legend: {
                 display: false,
               },
-              tooltip: {
-                enabled: true,
-              },
             },
             responsive: true,
             maintainAspectRatio: false,
@@ -133,11 +107,9 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, [prices, timeframe]);
-
+  }, [prices, type]);
   const today = new Date();
   const formattedDate = format(today, "MMMM dd, yyyy");
-
   return (
     <div
       className={cn(
@@ -147,14 +119,17 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
     >
       <div className="w-40 flex-col justify-start items-start gap-6 inline-flex mb-12">
         <div className="w-40 text-xl font-['Space Grotesk']">
-          Bitcoin (BTC)
+          {prices.name} (
+          <span className="uppercase">{prices.symbol}</span>)
         </div>
         <div className="flex-col justify-start items-start gap-4 flex">
           <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-fit inline-flex">
             $
-            {prices.length > 0 &&
-              Math.floor(prices[prices.length - 1][1] * 1000) /
-                1000}{" "}
+            {Math.floor(
+              prices.sparkline_in_7d.price[
+                prices.sparkline_in_7d.price.length - 1
+              ] * 1000
+            ) / 1000}{" "}
           </div>
           <div className="w-40 text-muted-foreground font-['Space Grotesk']">
             {formattedDate}
@@ -164,7 +139,7 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
       <div>
         <canvas
           ref={chartRef}
-          id="priceChart"
+          id="pricesCompareChart"
           className="h-48 md:h-64"
         />
       </div>
@@ -172,4 +147,4 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
   );
 };
 
-export default PricesChart;
+export default PricesCompare;

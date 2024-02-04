@@ -1,20 +1,31 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns"; // Import the adapter
-import { subDays, startOfDay, format } from "date-fns"; // For calculating dates
+import {
+  subDays,
+  startOfDay,
+  format,
+  startOfToday,
+  subMonths,
+} from "date-fns"; // For calculating dates
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
 interface VolumeChartProps {
   totalVolumes: number[][];
+  timeframe: number;
 }
 
-const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
+const VolumeChart = ({
+  totalVolumes,
+  timeframe,
+}: VolumeChartProps) => {
   const { theme } = useTheme();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
   useEffect(() => {
+    const timeframes = ["1D", "7D", "14D", "1M"];
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
       chartInstanceRef.current = null;
@@ -22,8 +33,25 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
 
     if (chartRef.current) {
       const chartContext = chartRef.current.getContext("2d");
+      let startDate;
+      switch (timeframes[timeframe]) {
+        case "1D":
+          startDate = subDays(startOfToday(), 1);
+          break;
+        case "7D":
+          startDate = subDays(startOfToday(), 7);
+          break;
+        case "14D":
+          startDate = subDays(startOfToday(), 14);
+          break;
+        case "1M":
+          startDate = subMonths(startOfToday(), 1);
+          break;
+        default:
+          startDate = subMonths(startOfToday(), 1);
+          break;
+      }
       if (chartContext) {
-        const twoWeeksAgo = startOfDay(subDays(new Date(), 14));
         const today = startOfDay(new Date());
         chartInstanceRef.current = new Chart(chartContext, {
           type: "bar",
@@ -73,7 +101,7 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
                   autoSkip: true,
                   maxTicksLimit: 14,
                 },
-                min: twoWeeksAgo.getTime(),
+                min: startDate.getTime(),
                 max: today.getTime(),
                 grid: {
                   display: false,
@@ -114,7 +142,7 @@ const VolumeChart = ({ totalVolumes }: VolumeChartProps) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, [totalVolumes]);
+  }, [totalVolumes, timeframe]);
 
   const today = new Date();
   const formattedDate = format(today, "MMMM dd, yyyy");
