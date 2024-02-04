@@ -1,3 +1,4 @@
+import { Coin } from "@/components/CoinCard";
 import { create } from "zustand";
 
 export type Currency =
@@ -13,16 +14,17 @@ interface CryptoState {
   currency: Currency;
   changeCurrency: (newCurr: Currency) => void;
   compare: boolean;
-  selectedCoin: string[];
   changeCompare: () => void;
+  selectedCoin: string[];
   changeSelectedCoin: (coin: string) => void | Error;
+  cryptoData: Coin[];
+  changeCryptoData: (newData: Coin[]) => void;
 }
 
 export const useCryptoStore = create<CryptoState>()((set) => ({
   currency: { symbol: "$", currency: "USD" },
   changeCurrency: (newCurr) => set(() => ({ currency: newCurr })),
   compare: false,
-  selectedCoin: ["bitcoin"],
   changeCompare: () =>
     set((state) => {
       const newMode = !state.compare;
@@ -31,6 +33,7 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
         .selectedCoin.slice(0, 1);
       return { compare: newMode, selectedCoin: newCoin };
     }),
+  selectedCoin: ["bitcoin"],
   changeSelectedCoin: (coin) =>
     set((state) => {
       if (state.compare) {
@@ -63,4 +66,6 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
         };
       }
     }),
+  cryptoData: [],
+  changeCryptoData: (newData) => set(() => ({ cryptoData: newData })),
 }));

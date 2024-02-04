@@ -10,10 +10,11 @@ import { LineChart, X } from "lucide-react";
 import { useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import PricesCompare from "./PricesCompare";
+import CoinsTable from "./CoinsTable";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
-  const [timeframe, setTimeframe] = useState(0);
+  const [timeframe, setTimeframe] = useState(3);
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
   const [cryptoData, setCryptoData] = useState<Coin[]>([]);
@@ -51,6 +52,7 @@ const LandingPage = () => {
       try {
         const response = await axios.get<Coin[]>("/api/cryptoData");
         setCryptoData(response.data);
+        useCryptoStore.getState().changeCryptoData(response.data);
       } catch (error) {
         console.error("Error fetching crypto data:", error);
       }
@@ -157,6 +159,7 @@ const LandingPage = () => {
       ) : (
         <div>Converter</div>
       )}
+      <CoinsTable coins={cryptoData} />
     </div>
   );
 };

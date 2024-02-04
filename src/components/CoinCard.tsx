@@ -23,7 +23,7 @@ export type Coin = {
   market_cap_change_24h: number;
   market_cap_change_percentage_24h: number;
   market_cap_rank: number;
-  max_supply: number | null;
+  max_supply: number;
   name: string;
   price_change_24h: number;
   price_change_percentage_1h_in_currency: number;
