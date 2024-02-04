@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -7,23 +6,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
-import axios from "axios";
 import CoinCard, { Coin } from "./CoinCard";
 
-const CoinCarousel = () => {
-  const [cryptoData, setCryptoData] = useState<Coin[]>([]);
-  useEffect(() => {
-    const fetchCryptoData = async () => {
-      try {
-        const response = await axios.get<Coin[]>("/api/cryptoData");
-        setCryptoData(response.data);
-      } catch (error) {
-        console.error("Error fetching crypto data:", error);
-      }
-    };
+interface CoinCarouselProps {
+  cryptoData: Coin[];
+}
 
-    fetchCryptoData();
-  }, []);
+const CoinCarousel = ({ cryptoData }: CoinCarouselProps) => {
   return (
     <div className="mb-12 mt-4 mx-8">
       <Carousel

@@ -8,31 +8,40 @@ import { cn } from "@/lib/utils";
 import CoinCarousel from "./CoinCarousel";
 import { LineChart, X } from "lucide-react";
 import { useCryptoStore } from "@/lib/store";
+import { Coin } from "./CoinCard";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
-  const [marketCaps, setMarketCaps] = useState<number[][]>();
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
+  const [cryptoData, setCryptoData] = useState<Coin[]>([]);
   const [compare, setCompare] = useState<boolean>(
     useCryptoStore.getState().compare
   );
   const sliderPosition =
     pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
-
+  const selectedCoins = useCryptoStore((state) => state.selectedCoin);
   useEffect(() => {
     const fetchBitcoinData = async () => {
       try {
-        const response = await axios.get("/api/bitcoinData"); // Adjust the path if your API route's path is different
-        const { market_caps, prices, total_volumes } = response.data;
-        setMarketCaps(market_caps);
+        const response = await axios.get("/api/bitcoinData");
+        const { prices, total_volumes } = response.data;
         setPrices(prices);
         setTotalVolumes(total_volumes);
       } catch (error) {
         console.error("Error:", error);
       }
     };
+    const fetchCryptoData = async () => {
+      try {
+        const response = await axios.get<Coin[]>("/api/cryptoData");
+        setCryptoData(response.data);
+      } catch (error) {
+        console.error("Error fetching crypto data:", error);
+      }
+    };
     fetchBitcoinData();
+    fetchCryptoData();
   }, []);
   const toggleCompare = () => {
     useCryptoStore.getState().changeCompare();
@@ -83,7 +92,7 @@ const LandingPage = () => {
               {compare ? "Stop Comparing" : "Compare"}
             </Button>
           </div>
-          <CoinCarousel />
+          <CoinCarousel cryptoData={cryptoData} />
           <div className="flex md:flex-row flex-col justify-around gap-5 items-center md:mx-8 mx-4">
             <PricesChart prices={prices} />
             <VolumeChart totalVolumes={totalVolumes} />
