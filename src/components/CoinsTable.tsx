@@ -83,8 +83,8 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
             ))}
           </div>
         </div>
+        <MobileTable columns={mobileColumns} data={mobileData} />
       </div>
-      <MobileTable columns={mobileColumns} data={mobileData} />
     </div>
   );
 };

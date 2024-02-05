@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useCryptoStore, Currencies, Currency } from "@/lib/store";
+import Link from "next/link";
 
 const Navbar = () => {
   const [currency, setCurrency] = useState(
@@ -41,12 +42,12 @@ const Navbar = () => {
         theme === "light" ? "bg-white" : "bg-background"
       )}
     >
-      <div className="flex items-center justify-between">
+      <Link href="/" className="flex items-center justify-between">
         <Image src="/logo.svg" alt="Logo" width={72} height={40} />
         <div className="text-foreground text-xl font-bold ml-8 md:block hidden">
           CoinPulse
         </div>
-      </div>
+      </Link>
       <div className="w-[265px] h-12 justify-start items-start gap-6 hidden md:inline-flex">
         <Button
           className="px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40"

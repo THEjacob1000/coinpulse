@@ -6,6 +6,7 @@ import { Progress } from "../ui/progress";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 import Sparkline from "../Sparkline";
+import Link from "next/link";
 
 export type DesktopTableCoin = {
   id: number;
@@ -63,7 +64,11 @@ export const desktopColumns: ColumnDef<DesktopTableCoin>[] = [
             height={24}
             className="rounded-full"
           />
-          <span>{name}</span>
+          <Button variant={"link"} className="text-foreground">
+            <Link href={`/coins/${name.toLocaleLowerCase()}`}>
+              {name}
+            </Link>
+          </Button>
         </div>
       );
     },
