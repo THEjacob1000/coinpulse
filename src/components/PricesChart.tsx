@@ -4,13 +4,19 @@ import "chartjs-adapter-date-fns";
 import { startOfToday, subMonths, format, subDays } from "date-fns";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { Currency } from "@/lib/store";
 
 interface PriceChartProps {
   prices: number[][];
   timeframe: number;
+  currency: [Currency, number];
 }
 
-const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
+const PricesChart = ({
+  prices,
+  timeframe,
+  currency,
+}: PriceChartProps) => {
   const { theme } = useTheme();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
@@ -51,7 +57,7 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
             datasets: [
               {
                 label: "Bitcoin Price",
-                data: prices.map((price) => price[1]),
+                data: prices.map((price) => price[1] * currency[1]),
                 borderColor: "rgba(120, 120, 250, 1)",
                 backgroundColor: (context) => {
                   const ctx = context.chart.ctx;
@@ -134,7 +140,7 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, [prices, timeframe]);
+  }, [prices, timeframe, currency]);
 
   const today = new Date();
   const formattedDate = format(today, "MMMM dd, yyyy");
@@ -152,7 +158,7 @@ const PricesChart = ({ prices, timeframe }: PriceChartProps) => {
         </div>
         <div className="flex-col justify-start items-start gap-4 flex">
           <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-fit inline-flex">
-            $
+            {currency[0].symbol}
             {prices.length > 0 &&
               Math.floor(prices[prices.length - 1][1] * 1000) /
                 1000}{" "}

@@ -10,15 +10,18 @@ import {
 } from "date-fns"; // For calculating dates
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { Currency } from "@/lib/store";
 
 interface VolumeChartProps {
   totalVolumes: number[][];
   timeframe: number;
+  currency: [Currency, number];
 }
 
 const VolumeChart = ({
   totalVolumes,
   timeframe,
+  currency,
 }: VolumeChartProps) => {
   const { theme } = useTheme();
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -142,7 +145,7 @@ const VolumeChart = ({
         chartInstanceRef.current.destroy();
       }
     };
-  }, [totalVolumes, timeframe]);
+  }, [totalVolumes, timeframe, currency]);
 
   const today = new Date();
   const formattedDate = format(today, "MMMM dd, yyyy");
@@ -158,15 +161,17 @@ const VolumeChart = ({
           Volume 24h
         </div>
         <div className="flex-col justify-start items-start gap-4 flex">
-          <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-48">
-            $
+          <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-52">
+            {currency[0].symbol}
             {totalVolumes.length > 0 &&
               (
-                Math.floor(
+                (Math.floor(
                   (totalVolumes[totalVolumes.length - 1][1] /
                     1000000000) *
                     1000
-                ) / 1000
+                ) /
+                  1000) *
+                currency[1]
               ).toFixed(3)}{" "}
             billion
           </div>

@@ -7,7 +7,7 @@ import VolumeChart from "./VolumeChart";
 import { cn } from "@/lib/utils";
 import CoinCarousel from "./CoinCarousel";
 import { LineChart, X } from "lucide-react";
-import { useCryptoStore } from "@/lib/store";
+import { Currency, useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import PricesCompare from "./PricesCompare";
 import CoinsTable from "./CoinsTable";
@@ -31,6 +31,18 @@ const LandingPage = () => {
 
   const timeframes = ["1D", "7D", "14D", "1M"];
   const selectedCoins = useCryptoStore((state) => state.selectedCoin);
+  const selectedCurrency = useCryptoStore(
+    (state) => state.currency
+  ) as Currency;
+  const currencies = {
+    USD: 1,
+    INR: 83.12,
+    EUR: 0.93,
+    GBP: 0.8,
+    JPY: 148.66,
+    AUD: 1.54,
+  };
+  const currency = currencies[selectedCurrency.currency];
   const prices1 =
     cryptoData.filter((coin) => coin.id === selectedCoins[0])[0] ||
     cryptoData.filter((coin) => coin.id === "bitcoin")[0];
@@ -59,7 +71,8 @@ const LandingPage = () => {
     };
     fetchBitcoinData();
     fetchCryptoData();
-  }, []);
+  }, [currency]);
+
   const toggleCompare = () => {
     useCryptoStore.getState().changeCompare();
     setCompare(!compare);
@@ -120,16 +133,22 @@ const LandingPage = () => {
               </>
             ) : (
               <div className="flex flex-col items-center w-full">
-                <div className="flex flex-wrap justify-center gap-4 w-full mb-8">
-                  <PricesChart
-                    prices={prices}
-                    timeframe={timeframe}
-                  />
-                  <VolumeChart
-                    totalVolumes={totalVolumes}
-                    timeframe={timeframe}
-                  />
-                </div>
+                {selectedCoins[0] === "bitcoin" ? (
+                  <div className="flex flex-wrap justify-center gap-4 w-full mb-8">
+                    <PricesChart
+                      prices={prices}
+                      timeframe={timeframe}
+                      currency={[selectedCurrency, currency]}
+                    />
+                    <VolumeChart
+                      totalVolumes={totalVolumes}
+                      timeframe={timeframe}
+                      currency={[selectedCurrency, currency]}
+                    />
+                  </div>
+                ) : (
+                  <PricesCompare prices={prices1} type={1} />
+                )}
 
                 <div className="relative w-full lg:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
                   <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">

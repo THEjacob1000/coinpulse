@@ -1,4 +1,4 @@
-import { useCryptoStore } from "@/lib/store";
+import { Currency, useCryptoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
@@ -52,7 +52,18 @@ const CoinCard = ({ coin }: CoinCardProps) => {
   const changeSelectedCoin = useCryptoStore(
     (state) => state.changeSelectedCoin
   );
-
+  const currencies = {
+    USD: 1,
+    INR: 83.12,
+    EUR: 0.93,
+    GBP: 0.8,
+    JPY: 148.66,
+    AUD: 1.54,
+  };
+  const selectedCurrency = useCryptoStore(
+    (state) => state.currency
+  ) as Currency;
+  const currency = currencies[selectedCurrency.currency];
   const isSelected = selectedCoins.includes(coin.id);
 
   const toggleSelected = () => {
@@ -88,8 +99,8 @@ const CoinCard = ({ coin }: CoinCardProps) => {
         </div>
         <div className="inline-flex">
           <div>
-            {coin.current_price}{" "}
-            {useCryptoStore.getState().currency.currency}
+            {Math.floor(coin.current_price * currency * 1000) / 1000}{" "}
+            {selectedCurrency.currency}
           </div>
           <div className="h-4 justify-start items-start gap-1 inline-flex ml-3 mt-1">
             <div
