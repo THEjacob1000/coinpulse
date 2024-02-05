@@ -119,8 +119,8 @@ const Page = ({ params }: { params: { coinId: string } }) => {
 
   return (
     <div className="flex flex-col w-full gap-4 mt-12">
-      <div className="flex justify-around items-start">
-        <div className="flex flex-col justify-center items-center w-1/4 gap-3">
+      <div className="flex justify-around items-start flex-wrap gap-4">
+        <div className="flex flex-col justify-center items-center w-5/6 md:w-1/3 lg:w-1/4 gap-3 shrink-0">
           <div className="bg-card rounded-lg p-8 flex flex-col items-center justify-center gap-4 w-full">
             <Image
               src={coinData.image.large}
@@ -152,7 +152,7 @@ const Page = ({ params }: { params: { coinId: string } }) => {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center w-1/4 bg-card rounded-lg gap-4 p-8">
+        <div className="flex flex-col justify-center items-center w-5/6 md:w-1/3 lg:w-1/4 bg-card rounded-lg gap-4 p-8 shrink-0">
           <div className="text-3xl">
             {currency.symbol +
               coinData.market_data.current_price[currencyShorthand]}
@@ -225,7 +225,7 @@ const Page = ({ params }: { params: { coinId: string } }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start items-center w-1/4 bg-card rounded-lg gap-2 p-8">
+        <div className="flex flex-col justify-start items-center w-5/6 lg:w-1/4 bg-card rounded-lg gap-2 p-8 shrink-0">
           <div className="flex justify-start gap-3 items-center w-full">
             <div className="bg-primary rounded-md  w-8 h-8 flex justify-center items-center font-bold">
               +
@@ -393,9 +393,9 @@ const Page = ({ params }: { params: { coinId: string } }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-start items-start px-16 py-8">
+      <div className="flex flex-col justify-start items-center lg:items-start px-16 py-8">
         <div className="text-2xl font-bold mb-4">Description</div>
-        <div className="w-full flex justify-between items-start gap-20">
+        <div className="w-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-20">
           <div className="flex flex-col justify-start items-start w-3/4">
             <div
               ref={setRef}
@@ -424,7 +424,7 @@ const Page = ({ params }: { params: { coinId: string } }) => {
               </Button>
             ) : null}
           </div>
-          <div className="flex flex-col gap-6 w-1/3">
+          <div className="flex flex-col gap-6 lg:w-1/3 w-fit">
             {coinData.links.blockchain_site
               .slice(0, 3)
               .map((link: string, index: number) => (

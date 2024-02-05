@@ -58,29 +58,31 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
       <div className="container mx-auto py-10 lg:flex hidden">
         <DesktopTable columns={desktopColumns} data={desktopData} />
       </div>
-      <div className="flex justify-between min-w-full lg:hidden mt-8 items-center">
-        <h2 className="text-lg font-semibold mb-5">
-          Market Overview
-        </h2>
-        <div className="relative w-1/2 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8">
-          <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
-            <div
-              className={`absolute top-0 ${timeSliderPosition} h-full w-1/3 bg-primary transition-all duration-300 ease-in-out rounded-md`}
-              aria-hidden="true"
-            ></div>
-            {timeframes.map((tf, index) => (
-              <button
-                key={index}
-                className={`relative w-full font-semibold z-10 ${
-                  index === mobileActive
-                    ? "text-primary-foreground"
-                    : ""
-                }`}
-                onClick={() => setMobileActive(index)}
-              >
-                {tf}
-              </button>
-            ))}
+      <div className="flex flex-col justify-between min-w-full lg:hidden mt-8 items-center">
+        <div className="w-full flex justify-between px-12 items-center">
+          <h2 className="text-lg font-semibold mb-5">
+            Market Overview
+          </h2>
+          <div className="relative w-1/2 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8">
+            <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
+              <div
+                className={`absolute top-0 ${timeSliderPosition} h-full w-1/3 bg-primary transition-all duration-300 ease-in-out rounded-md`}
+                aria-hidden="true"
+              ></div>
+              {timeframes.map((tf, index) => (
+                <button
+                  key={index}
+                  className={`relative w-full font-semibold z-10 ${
+                    index === mobileActive
+                      ? "text-primary-foreground"
+                      : ""
+                  }`}
+                  onClick={() => setMobileActive(index)}
+                >
+                  {tf}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         <MobileTable columns={mobileColumns} data={mobileData} />
