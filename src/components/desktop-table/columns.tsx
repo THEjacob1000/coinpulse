@@ -2,12 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import { Progress } from "./ui/progress";
+import { Progress } from "../ui/progress";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "./ui/button";
-import Sparkline from "./Sparkline";
+import { Button } from "../ui/button";
+import Sparkline from "../Sparkline";
 
-export type TableCoin = {
+export type DesktopTableCoin = {
   id: number;
   name: [string, string];
   price: string;
@@ -19,7 +19,7 @@ export type TableCoin = {
   sparkline: number[];
 };
 
-export const columns: ColumnDef<TableCoin>[] = [
+export const desktopColumns: ColumnDef<DesktopTableCoin>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -200,7 +200,7 @@ export const columns: ColumnDef<TableCoin>[] = [
     header: "24h Volume / Market Cap",
     accessorFn: (row) => row.volumeMarketCap,
     cell: ({ getValue }) => {
-      const value = getValue() as TableCoin["volumeMarketCap"];
+      const value = getValue() as DesktopTableCoin["volumeMarketCap"];
       const [volume, marketCap] = value;
       return (
         <div className="flex flex-col w-5/6">
@@ -221,7 +221,7 @@ export const columns: ColumnDef<TableCoin>[] = [
     header: "Circulating / Total Supply",
     accessorFn: (row) => row.volumeMarketCap,
     cell: ({ getValue }) => {
-      const value = getValue() as TableCoin["volumeMarketCap"];
+      const value = getValue() as DesktopTableCoin["volumeMarketCap"];
       const [circulating, totalSupply] = value;
       return (
         <div className="flex flex-col w-5/6">

@@ -110,7 +110,7 @@ const LandingPage = () => {
             </Button>
           </div>
           <CoinCarousel cryptoData={cryptoData} />
-          <div className="flex md:flex-row flex-col justify-around gap-5 items-center md:mx-8 mx-4">
+          <div className="flex md:flex-row flex-col justify-around gap-5 items-center lg:mx-8">
             {compare ? (
               <>
                 <PricesCompare prices={prices1} type={1} />
@@ -131,7 +131,7 @@ const LandingPage = () => {
                   />
                 </div>
 
-                <div className="relative w-full md:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
+                <div className="relative w-full lg:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
                   <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
                     <div
                       className={`absolute top-0 ${timeSliderPosition} h-full w-1/4 bg-primary transition-all duration-300 ease-in-out rounded-md`}
