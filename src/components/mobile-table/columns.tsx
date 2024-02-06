@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Sparkline from "../Sparkline";
+import Link from "next/link";
 
 export type MobileTableCoin = {
   id: number;
@@ -56,7 +57,11 @@ export const mobileColumns: ColumnDef<MobileTableCoin>[] = [
             height={24}
             className="rounded-full"
           />
-          <span>{name}</span>
+          <Button variant={"link"} className="text-foreground">
+            <Link href={`/coins/${name.toLocaleLowerCase()}`}>
+              {name}
+            </Link>
+          </Button>
         </div>
       );
     },

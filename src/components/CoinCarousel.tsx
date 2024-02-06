@@ -24,7 +24,7 @@ const CoinCarousel = ({ cryptoData }: CoinCarouselProps) => {
           {cryptoData.map((coinData, index) => (
             <CarouselItem
               key={index}
-              className="basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/6 pl-1"
+              className="basis-1/3 xl:basis-1/4 2xl:basis-1/6 pl-1"
             >
               <CoinCard coin={coinData} />
             </CarouselItem>

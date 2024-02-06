@@ -2,7 +2,6 @@
 import { ChevronDown, Home, Layers, Search } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import Searchbar from "./SearchBar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { useCryptoStore, Currencies, Currency } from "@/lib/store";
 import Link from "next/link";
+import NavSearch from "./NavSearch";
 
 const Navbar = () => {
   const [currency, setCurrency] = useState(
@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "flex justify-between md:justify-around items-center py-6 min-w-full",
+        "flex justify-around items-center py-6 min-w-full max-h-24",
         theme === "light" ? "bg-white" : "bg-background"
       )}
     >
@@ -79,10 +79,7 @@ const Navbar = () => {
         </Button>
       </div>
       <div className="flex justify-between w-1/4 items-center gap-2">
-        <div className="w-1/2 hidden md:block ">
-          <Search className="w-4 h-4 absolute mt-3 ml-2" />
-          <Searchbar className="pl-10" position="first" />
-        </div>
+        <NavSearch />
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
             <div className="flex bg-card/40 px-3 py-2 rounded-lg h-10">

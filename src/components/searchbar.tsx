@@ -24,7 +24,7 @@ import {
 import { useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import useMediaQuery from "@/hooks/use-media-query";
-import { cn } from "@/lib/utils";
+import { capitalizeWords, cn } from "@/lib/utils";
 
 interface SearchbarProps {
   coin?: Coin;
@@ -101,16 +101,6 @@ const Searchbar = ({ coin, className, position }: SearchbarProps) => {
     </Drawer>
   );
 };
-
-function capitalizeWords(str: string) {
-  return str
-    .split(" ")
-    .map(
-      (word) =>
-        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    )
-    .join(" ");
-}
 
 function CoinList({
   setOpen,

@@ -14,7 +14,6 @@ import CoinsTable from "./CoinsTable";
 import Converter from "./Converter";
 
 const LandingPage = () => {
-  const [pageType, setPageType] = useState("coins");
   const [timeframe, setTimeframe] = useState(3);
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
@@ -22,6 +21,8 @@ const LandingPage = () => {
   const [compare, setCompare] = useState<boolean>(
     useCryptoStore.getState().compare
   );
+  const pageType = useCryptoStore((state) => state.pageType);
+  const setPageType = useCryptoStore((state) => state.changePageType);
   const sliderPosition =
     pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
 
@@ -80,7 +81,7 @@ const LandingPage = () => {
   };
   return (
     <div className="mx-8 my-4">
-      <div className="relative w-full md:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
+      <div className="relative w-full md:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8 hidden md:block">
         <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
           <div
             className={`absolute top-0 ${sliderPosition} h-full w-1/2 bg-primary transition-all duration-300 ease-in-out rounded-md`}
@@ -108,8 +109,10 @@ const LandingPage = () => {
       </div>
       {pageType === "coins" ? (
         <div className="flex flex-col">
-          <div className="w-full ml-8 pr-16 justify-between flex mb-0 items-end">
-            <p>Select the currency to view statistics</p>
+          <div className="w-full ml-8 pr-16 justify-between flex mb-0 items-center md:items-end">
+            <p className="md:text-base text-xs">
+              Select the currency to view statistics
+            </p>
             <Button
               className="p-6 text-md"
               variant={"secondary"}

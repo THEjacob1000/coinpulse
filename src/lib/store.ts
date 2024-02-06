@@ -19,6 +19,8 @@ interface CryptoState {
   changeSelectedCoin: (coin: string) => void | Error;
   cryptoData: Coin[];
   changeCryptoData: (newData: Coin[]) => void;
+  pageType: "coins" | "converter";
+  changePageType: (newType: "coins" | "converter") => void;
 }
 
 export const useCryptoStore = create<CryptoState>()((set) => ({
@@ -68,4 +70,6 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
     }),
   cryptoData: [],
   changeCryptoData: (newData) => set(() => ({ cryptoData: newData })),
+  pageType: "coins",
+  changePageType: (newType) => set(() => ({ pageType: newType })),
 }));

@@ -82,13 +82,19 @@ const CoinCard = ({ coin }: CoinCardProps) => {
     <Button
       variant={isSelected ? "default" : "secondary"}
       className={cn(
-        "flex justify-center h-20 w-full p-4 rounded-md gap-4 font-['Space Grotesk']",
+        "flex justify-center h-20 w-full p-4 rounded-md md:gap-4 gap-2 font-['Space Grotesk']",
         !isSelected && "bg-secondary/40"
       )}
       onClick={toggleSelected}
     >
-      <Image src={coin.image} alt={coin.id} width={50} height={50} />
-      <div className="flex flex-col">
+      <Image
+        src={coin.image}
+        alt={coin.id}
+        width={50}
+        height={50}
+        className="h-10 w-10"
+      />
+      <div className="md:flex flex-col hidden">
         <div className="flex items-center gap-2">
           <div className="truncate max-w-24 inline-block whitespace-nowrap">
             {coin.name}
@@ -124,6 +130,7 @@ const CoinCard = ({ coin }: CoinCardProps) => {
           </div>
         </div>
       </div>
+      <div className="text-xl uppercase md:hidden">{coin.symbol}</div>
     </Button>
   );
 };
