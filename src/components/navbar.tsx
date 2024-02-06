@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Home, Layers } from "lucide-react";
+import { ChevronDown, Home, Layers, Search } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Searchbar from "./SearchBar";
@@ -79,7 +79,10 @@ const Navbar = () => {
         </Button>
       </div>
       <div className="flex justify-between w-1/4 items-center gap-2">
-        <Searchbar />
+        <div className="w-1/2 hidden md:block ">
+          <Search className="w-4 h-4 absolute mt-3 ml-2" />
+          <Searchbar className="pl-10" position="first" />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
             <div className="flex bg-card/40 px-3 py-2 rounded-lg h-10">

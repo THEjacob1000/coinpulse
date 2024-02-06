@@ -11,6 +11,7 @@ import { Currency, useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import PricesCompare from "./PricesCompare";
 import CoinsTable from "./CoinsTable";
+import Converter from "./Converter";
 
 const LandingPage = () => {
   const [pageType, setPageType] = useState("coins");
@@ -45,10 +46,10 @@ const LandingPage = () => {
   const currency = currencies[selectedCurrency.currency];
   const prices1 =
     cryptoData.filter((coin) => coin.id === selectedCoins[0])[0] ||
-    cryptoData.filter((coin) => coin.id === "bitcoin")[0];
+    (cryptoData.filter((coin) => coin.id === "bitcoin")[0] as Coin);
   const prices2 = cryptoData.filter(
     (coin) => coin.id === selectedCoins[1]
-  )[0];
+  )[0] as Coin;
   useEffect(() => {
     const fetchBitcoinData = async () => {
       try {
@@ -176,7 +177,7 @@ const LandingPage = () => {
           </div>
         </div>
       ) : (
-        <div>Converter</div>
+        <Converter />
       )}
       <CoinsTable coins={cryptoData} />
     </div>
