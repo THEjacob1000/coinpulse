@@ -101,14 +101,13 @@ const Searchbar = ({ coin, className, position }: SearchbarProps) => {
     </Drawer>
   );
 };
-
 function CoinList({
   setOpen,
   setSelectedCoin,
   position,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedCoin: (status: Coin | null) => void;
+  setSelectedCoin: (coin: Coin | null) => void;
   position: "first" | "second";
 }) {
   const cryptoData = useCryptoStore((state) => state.cryptoData);
@@ -122,6 +121,7 @@ function CoinList({
           {cryptoData.map((coin, index) => (
             <CommandItem
               key={coin.id}
+              className="cursor-pointer"
               value={coin.id}
               onSelect={(value) => {
                 const newCoin =
@@ -132,7 +132,7 @@ function CoinList({
 
                   const currentSelectedCoins =
                     useCryptoStore.getState().selectedCoin;
-                  const updatedSelectedCoins = [
+                  let updatedSelectedCoins = [
                     ...currentSelectedCoins,
                   ];
 
@@ -146,15 +146,12 @@ function CoinList({
                     }
                   }
 
-                  updatedSelectedCoins.forEach((coinId, idx) => {
-                    useCryptoStore
-                      .getState()
-                      .changeSelectedCoin(coinId);
-                  });
+                  useCryptoStore
+                    .getState()
+                    .setSelectedCoins(updatedSelectedCoins);
 
                   setOpen(false);
                 }
-                console.log(useCryptoStore.getState().selectedCoin);
               }}
             >
               {capitalizeWords(coin.id)}
@@ -165,5 +162,4 @@ function CoinList({
     </Command>
   );
 }
-
 export default Searchbar;

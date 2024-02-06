@@ -16,6 +16,7 @@ interface CryptoState {
   compare: boolean;
   changeCompare: () => void;
   selectedCoin: string[];
+  setSelectedCoins: (coins: string[]) => void;
   changeSelectedCoin: (coin: string) => void | Error;
   cryptoData: Coin[];
   changeCryptoData: (newData: Coin[]) => void;
@@ -68,6 +69,8 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
         };
       }
     }),
+  setSelectedCoins: (coins) => set(() => ({ selectedCoin: coins })),
+
   cryptoData: [],
   changeCryptoData: (newData) => set(() => ({ cryptoData: newData })),
   pageType: "coins",
