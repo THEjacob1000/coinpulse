@@ -17,6 +17,7 @@ import { Button } from "./ui/button";
 import { Coin } from "./CoinCard";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
+import Link from "next/link";
 
 const NavSearch = () => {
   const cryptoData = useCryptoStore((state) => state.cryptoData);
@@ -59,11 +60,11 @@ const NavSearch = () => {
                       <CommandItem
                         key={index}
                         value={coin.id}
-                        onSelect={(value) => {
-                          console.log(value);
-                        }}
+                        onSelect={() => setActive(false)}
                       >
-                        <span>{capitalizeWords(coin.id)}</span>
+                        <Link href={`/coins/${coin.id}`}>
+                          {capitalizeWords(coin.id)}
+                        </Link>
                       </CommandItem>
                     ))}
                 </CommandGroup>
@@ -95,14 +96,18 @@ const NavSearch = () => {
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <CoinList setOpen={setActive} />
+          <CoinList setActive={setActive} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 };
 
-function CoinList({ setOpen }: { setOpen: (open: boolean) => void }) {
+function CoinList({
+  setActive,
+}: {
+  setActive: (open: boolean) => void;
+}) {
   const cryptoData = useCryptoStore((state) => state.cryptoData);
   const router = useRouter();
 
@@ -116,9 +121,11 @@ function CoinList({ setOpen }: { setOpen: (open: boolean) => void }) {
             <CommandItem
               key={coin.id}
               value={coin.id}
-              onSelect={() => router.push(`/coin/${coin.id}`)}
+              onSelect={() => setActive(false)}
             >
-              {capitalizeWords(coin.id)}
+              <Link href={`/coins/${coin.id}`}>
+                {capitalizeWords(coin.id)}
+              </Link>
             </CommandItem>
           ))}
         </CommandGroup>
