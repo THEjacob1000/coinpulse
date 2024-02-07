@@ -35,6 +35,12 @@ const Converter = () => {
       : cryptoData.find((coin) => coin.id === "ethereum");
     setPrice1(coin1);
     setPrice2(coin2);
+    const exchange =
+      coin1 && coin2
+        ? coin1?.current_price / coin2?.current_price
+        : 1;
+    setInput1("1");
+    setInput2(exchange.toFixed(4));
   }, [cryptoData, selectedCoins]);
 
   if (!price1 || !price2) return null;
@@ -84,18 +90,18 @@ const Converter = () => {
     price2.current_price * currencies[currency.currency];
 
   const date = new Date();
-  const formattedDate = format(date, "dd/MM/yyyy mm:hh");
+  const formattedDate = format(date, "dd/MM/yyyy HH:mm");
 
   return (
     <div>
-      <div className="font-semibold text-lg px-12">
+      <div className="font-semibold lg:text-lg text-2xl px-12">
         Online Currency Converter
       </div>
       <div className="text-muted-foreground px-12 mb-8">
         {formattedDate}
       </div>
       <div className="flex justify-center items-center gap-4 flex-col lg:flex-row w-full mx-auto">
-        <div className="bg-card rounded-lg flex flex-col p-8 lg:w-5/12 w-5/6">
+        <div className="bg-card rounded-lg flex flex-col p-8 lg:w-5/12 w-11/12">
           <div className="text-sm text-muted-foreground">
             You sell
           </div>
@@ -110,7 +116,7 @@ const Converter = () => {
               />
               <Searchbar coin={price1} position="first" />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-end">
               <Input
                 type="number"
                 placeholder={placeholder1}
@@ -118,7 +124,7 @@ const Converter = () => {
                 onFocus={handleInput1Focus}
                 onBlur={handleInput1Blur}
                 onChange={(e) => handleInput1Change(e.target.value)}
-                className="text-right border-none bg-card/0 remove-arrow focus:border-none"
+                className="text-right border-none bg-card/0 remove-arrow w-1/2 mr-1"
               />
               <span className="text-muted-foreground">
                 {price1.symbol.toUpperCase()}
@@ -132,7 +138,7 @@ const Converter = () => {
             {currency.currency.toUpperCase()}
           </div>
         </div>
-        <div className="bg-card/50 rounded-lg flex flex-col p-8 w-5/12">
+        <div className="bg-card rounded-lg flex flex-col p-8 lg:w-5/12 w-11/12">
           <div className="text-sm text-muted-foreground">You buy</div>
           <div className="flex justify-between items-center mt-12">
             <div className="flex gap-2">
@@ -149,7 +155,7 @@ const Converter = () => {
                 className="bg-card/0"
               />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-end">
               <Input
                 type="number"
                 placeholder={placeholder2}
@@ -157,7 +163,7 @@ const Converter = () => {
                 onFocus={handleInput2Focus}
                 onBlur={handleInput2Blur}
                 onChange={(e) => handleInput2Change(e.target.value)}
-                className="text-right border-none bg-card/0 remove-arrow"
+                className="text-right border-none bg-card/0 remove-arrow w-1/2 mr-1"
               />
               <span className="text-muted-foreground">
                 {price2.symbol.toUpperCase()}
