@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        "flex justify-around items-center py-6 min-w-full max-h-24",
+        "flex justify-around items-center py-6 min-w-full max-h-24 fixed top-0 z-10",
         theme === "light" ? "bg-white" : "bg-background"
       )}
     >

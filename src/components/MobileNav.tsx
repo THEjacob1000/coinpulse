@@ -13,8 +13,8 @@ const MobileNav = () => {
   const pathname = usePathname();
   return (
     <div className="w-full flex justify-center items-center">
-      <div className="w-5/6 md:hidden h-24 p-1 bg-card/70 rounded-md gap-1 mb-8 z-50 block fixed bottom-4">
-        <div className="relative w-11/12 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
+      <div className="w-full md:hidden h-24 p-1 bg-card/70 rounded-md gap-1 z-50 block fixed bottom-0">
+        <div className="relative w-[97%] m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
           <Link href="/" className="w-1/3">
             <Button
               className="flex flex-col w-full h-fit"

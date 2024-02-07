@@ -55,7 +55,7 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
   }));
   return (
     <div className="w-full">
-      <div className="container mx-auto py-10 lg:flex hidden">
+      <div className="container mx-auto py-10 lg:flex hidden w-full">
         <DesktopTable columns={desktopColumns} data={desktopData} />
       </div>
       <div className="flex flex-col justify-between min-w-full lg:hidden mt-8 items-center">
