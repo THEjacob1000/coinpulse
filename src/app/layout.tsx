@@ -28,7 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <main className="mt-40 md:mt-36">{children}</main>
+          <main className="mt-40">{children}</main>
           <MobileNav />
           <Toaster />
         </ThemeProvider>

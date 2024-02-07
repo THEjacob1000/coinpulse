@@ -26,11 +26,6 @@ const LandingPage = () => {
   const sliderPosition =
     pageType === "coins" ? "left-0" : "left-full translate-x-[-100%]";
 
-  const timeSliderPosition =
-    timeframe === 0
-      ? "left-0"
-      : `left-full translate-x-[-${(4 - timeframe) * 100}%]`;
-
   const timeframes = ["1D", "7D", "14D", "1M"];
   const selectedCoins = useCryptoStore((state) => state.selectedCoin);
   const selectedCurrency = useCryptoStore(
@@ -157,7 +152,15 @@ const LandingPage = () => {
                 <div className="relative w-full lg:w-1/4 h-16 p-1 bg-card/70 rounded-md gap-1 mb-8 mx-8">
                   <div className="relative w-11/12 h-10 m-2 bg-card rounded-md flex items-center gap-1 overflow-hidden">
                     <div
-                      className={`absolute top-0 ${timeSliderPosition} h-full w-1/4 bg-primary transition-all duration-300 ease-in-out rounded-md`}
+                      className={cn(
+                        "absolute top-0 left-0 h-full w-1/4 bg-primary transition-all duration-300 ease-in-out rounded-md",
+                        timeframe === 1 &&
+                          "left-full -translate-x-[300%]",
+                        timeframe === 2 &&
+                          "left-full -translate-x-[200%]",
+                        timeframe === 3 &&
+                          "left-full -translate-x-[100%]"
+                      )}
                       aria-hidden="true"
                     ></div>
                     {timeframes.map((tf, index) => (
@@ -168,7 +171,10 @@ const LandingPage = () => {
                             ? "text-primary-foreground"
                             : ""
                         }`}
-                        onClick={() => setTimeframe(index)}
+                        onClick={() => {
+                          setTimeframe(index);
+                          console.log(timeframe);
+                        }}
                       >
                         {tf}
                       </button>
