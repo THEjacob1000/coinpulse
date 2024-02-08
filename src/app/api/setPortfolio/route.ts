@@ -28,35 +28,60 @@ export async function POST(req: NextRequest) {
     const client = await clientPromise;
     const db = client.db("coins");
 
-    const filter = { "data.coin.id": portfolioData.data.coin.id };
+    if (portfolioData.data.amountOwned === 0) {
+      const deleteFilter = {
+        "data.coin.id": portfolioData.data.coin.id,
+      };
+      const deleteResponse = await db
+        .collection("portfolioData")
+        .deleteOne(deleteFilter);
 
-    const update = { $set: { ...portfolioData.data } };
-    const options = { upsert: true };
+      let message = "";
+      if (deleteResponse.deletedCount > 0) {
+        message = "Portfolio data deleted successfully";
+      } else {
+        message = "No portfolio data found to delete";
+      }
 
-    const response = await db
-      .collection("portfolioData")
-      .updateOne(filter, update, options);
-
-    let message = "";
-    if (response.upsertedCount > 0) {
-      message = "Portfolio data added successfully";
-    } else if (response.modifiedCount > 0) {
-      message = "Portfolio data updated successfully";
+      return new NextResponse(JSON.stringify({ message }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } else {
-      message = "No changes made to the portfolio data";
-    }
+      const filter = { "data.coin.id": portfolioData.data.coin.id };
+      const update = { $set: { ...portfolioData.data } };
+      const options = { upsert: true };
 
-    return new NextResponse(JSON.stringify({ message }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      const response = await db
+        .collection("portfolioData")
+        .updateOne(filter, update, options);
+
+      let message = "";
+      if (response.upsertedCount > 0) {
+        message = "Portfolio data added successfully";
+      } else if (response.modifiedCount > 0) {
+        message = "Portfolio data updated successfully";
+      } else {
+        message = "No changes made to the portfolio data";
+      }
+
+      return new NextResponse(JSON.stringify({ message }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
   } catch (error: any) {
-    console.error("Failed to update or insert portfolio data", error);
+    console.error(
+      "Failed to update, insert, or delete portfolio data",
+      error
+    );
     return new NextResponse(
       JSON.stringify({
-        error: "Failed to update or insert portfolio data",
+        error: "Failed to update, insert, or delete portfolio data",
         details: error.message,
       }),
       {

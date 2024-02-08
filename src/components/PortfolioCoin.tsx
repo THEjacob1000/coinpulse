@@ -8,6 +8,7 @@ import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { format } from "date-fns";
+import CoinEdit from "./CoinEdit";
 
 interface PortfolioCoinProps {
   portData: PortfolioData;
@@ -55,9 +56,7 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
         <div className="flex flex-col w-full p-4 px-6 gap-6">
           <div className="flex justify-between items-center w-full">
             <div className="text-xl font-semibold">Market Price</div>
-            <Button className="p-2">
-              <Edit />
-            </Button>
+            <CoinEdit portData={portData} />
           </div>
           <div className="flex justify-between items-center w-full">
             <div className="flex flex-col gap-2 justify-center items-stretch">
