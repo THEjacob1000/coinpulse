@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CoinForm from "@/components/CoinForm";
 import PortfolioCoin from "@/components/PortfolioCoin";
+import PortfolioCoinMobile from "@/components/PortfolioCoinMobile";
 
 export type ValueAtBuy = {
   usd: number;
@@ -51,13 +52,14 @@ const Page = () => {
         <div className="text-xl">Portfolio</div>
         <CoinForm cryptoData={cryptoData} />
       </div>
-      <div className="flex flex-col justify-center items-center w-full mt-6">
+      <div className="flex flex-col justify-center items-center w-full mt-6 mb-32">
         {portfolioCoins &&
           portfolioCoins.map((coin, index) => {
             if (!coin) return null;
             return (
               <div key={index} className="m-4 w-11/12">
                 <PortfolioCoin portData={coin} />
+                <PortfolioCoinMobile portData={coin} />
               </div>
             );
           })}
