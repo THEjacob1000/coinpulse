@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export type DesktopTableCoin = {
   id: number;
-  name: [string, string];
+  name: [string, string, string];
   price: string;
   hourChange: string;
   dayChange: string;
@@ -54,7 +54,7 @@ export const desktopColumns: ColumnDef<DesktopTableCoin>[] = [
       );
     },
     cell: (info) => {
-      const [imageUrl, name] = info.row.original.name;
+      const [imageUrl, name, id] = info.row.original.name;
       return (
         <div className="flex items-center space-x-2">
           <Image
@@ -65,9 +65,7 @@ export const desktopColumns: ColumnDef<DesktopTableCoin>[] = [
             className="rounded-full"
           />
           <Button variant={"link"} className="text-foreground">
-            <Link href={`/coins/${name.toLocaleLowerCase()}`}>
-              {name}
-            </Link>
+            <Link href={`/coins/${id}`}>{name}</Link>
           </Button>
         </div>
       );

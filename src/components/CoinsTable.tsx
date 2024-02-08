@@ -25,7 +25,7 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
   const desktopData: DesktopTableCoin[] = coins.map(
     (coin, index) => ({
       id: index + 1,
-      name: [coin.image, coin.name],
+      name: [coin.image, coin.name, coin.id],
       price: `$${coin.current_price.toFixed(2)}`,
       hourChange:
         coin.price_change_percentage_1h_in_currency.toFixed(2),
@@ -42,7 +42,7 @@ const CoinsTable = ({ coins }: CoinsTableProps) => {
   );
   const mobileData: MobileTableCoin[] = coins.map((coin, index) => ({
     id: index + 1,
-    name: [coin.image, coin.name],
+    name: [coin.image, coin.name, coin.id],
     price: [
       coin.current_price,
       mobileActive === 0
