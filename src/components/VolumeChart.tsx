@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns"; // Import the adapter
 import {
@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { Currency } from "@/lib/store";
+import { Skeleton } from "./ui/skeleton";
 
 interface VolumeChartProps {
   totalVolumes: number[][];
@@ -26,8 +27,10 @@ const VolumeChart = ({
   const { theme } = useTheme();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const timeframes = ["1D", "7D", "14D", "1M"];
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
@@ -139,7 +142,7 @@ const VolumeChart = ({
         });
       }
     }
-
+    setIsLoading(false);
     return () => {
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
@@ -150,44 +153,64 @@ const VolumeChart = ({
   const today = new Date();
   const formattedDate = format(today, "MMMM dd, yyyy");
   return (
-    <div
-      className={cn(
-        "flex-0 lg:w-5/12 w-full p-12 rounded-lg",
-        theme === "light" ? "bg-white" : "bg-[#1E1932]"
+    <>
+      {isLoading ? (
+        <div
+          className={cn(
+            "flex-0 lg:w-5/12 w-full p-12 rounded-lg",
+            theme === "light" ? "bg-white" : "bg-[#191932]"
+          )}
+        >
+          <div className="w-40 flex-col justify-start items-start gap-6 inline-flex mb-12">
+            <Skeleton className="h-6 w-40 mb-2" />{" "}
+            <div className="flex-col justify-start items-start gap-4 flex">
+              <Skeleton className="h-8 w-32 mb-2" />{" "}
+              <Skeleton className="h-4 w-40" />{" "}
+            </div>
+          </div>
+          <Skeleton className="h-48 md:h-64" />{" "}
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "flex-0 lg:w-5/12 w-full p-12 rounded-lg",
+            theme === "light" ? "bg-white" : "bg-[#1E1932]"
+          )}
+        >
+          <div className="w-40 flex-col justify-start items-start gap-6 inline-flex mb-12">
+            <div className="w-40 text-xl font-['Space Grotesk']">
+              Volume 24h
+            </div>
+            <div className="flex-col justify-start items-start gap-4 flex">
+              <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-52">
+                {currency[0].symbol}
+                {totalVolumes.length > 0 &&
+                  (
+                    (Math.floor(
+                      (totalVolumes[totalVolumes.length - 1][1] /
+                        1000000000) *
+                        1000
+                    ) /
+                      1000) *
+                    currency[1]
+                  ).toFixed(3)}{" "}
+                billion
+              </div>
+              <div className="w-40 text-muted-foreground font-['Space Grotesk']">
+                {formattedDate}
+              </div>
+            </div>
+          </div>
+          <div className="relative">
+            <canvas
+              ref={chartRef}
+              id="volumeChart"
+              className="h-48 md:h-64"
+            />
+          </div>
+        </div>
       )}
-    >
-      <div className="w-40 flex-col justify-start items-start gap-6 inline-flex mb-12">
-        <div className="w-40 text-xl font-['Space Grotesk']">
-          Volume 24h
-        </div>
-        <div className="flex-col justify-start items-start gap-4 flex">
-          <div className="text-2xl font-bold font-['Space Grotesk'] leading-7 w-52">
-            {currency[0].symbol}
-            {totalVolumes.length > 0 &&
-              (
-                (Math.floor(
-                  (totalVolumes[totalVolumes.length - 1][1] /
-                    1000000000) *
-                    1000
-                ) /
-                  1000) *
-                currency[1]
-              ).toFixed(3)}{" "}
-            billion
-          </div>
-          <div className="w-40 text-muted-foreground font-['Space Grotesk']">
-            {formattedDate}
-          </div>
-        </div>
-      </div>
-      <div className="relative">
-        <canvas
-          ref={chartRef}
-          id="volumeChart"
-          className="h-48 md:h-64"
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

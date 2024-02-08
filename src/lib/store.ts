@@ -20,6 +20,8 @@ interface CryptoState {
   changeSelectedCoin: (coin: string) => void | Error;
   cryptoData: Coin[];
   changeCryptoData: (newData: Coin[]) => void;
+  cryptoDataLoading: boolean;
+  changeCryptoDataLoading: (loading: boolean) => void;
   pageType: "coins" | "converter";
   changePageType: (newType: "coins" | "converter") => void;
 }
@@ -70,9 +72,11 @@ export const useCryptoStore = create<CryptoState>()((set) => ({
       }
     }),
   setSelectedCoins: (coins) => set(() => ({ selectedCoin: coins })),
-
   cryptoData: [],
   changeCryptoData: (newData) => set(() => ({ cryptoData: newData })),
+  cryptoDataLoading: true,
+  changeCryptoDataLoading: (loading) =>
+    set(() => ({ cryptoDataLoading: loading })),
   pageType: "coins",
   changePageType: (newType) => set(() => ({ pageType: newType })),
 }));

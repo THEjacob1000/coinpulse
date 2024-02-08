@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import PricesChart from "./PricesChart";
@@ -10,7 +10,9 @@ import { LineChart, X } from "lucide-react";
 import { Currency, useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import PricesCompare from "./PricesCompare";
-import CoinsTable from "./CoinsTable";
+
+const CoinsTable = lazy(() => import("./CoinsTable"));
+
 import Converter from "./Converter";
 
 const LandingPage = () => {

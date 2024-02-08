@@ -24,6 +24,7 @@ const MarketData = () => {
   const [marketData, setMarketData] = useState<MarketData>();
   const [cryptoData, setCryptoData] = useState<Coin[]>();
   useEffect(() => {
+    useCryptoStore.getState().changeCryptoDataLoading(true);
     const fetchMarketData = async () => {
       try {
         const response = await axios.get("/api/marketData");
@@ -38,6 +39,7 @@ const MarketData = () => {
         const response = await axios.get<Coin[]>("/api/cryptoData");
         setCryptoData(response.data);
         useCryptoStore.getState().changeCryptoData(response.data);
+        useCryptoStore.getState().changeCryptoDataLoading(false);
       } catch (error) {
         console.error("Error fetching crypto data:", error);
       }

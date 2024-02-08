@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCryptoStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import axios from "axios";
@@ -106,7 +107,54 @@ const Page = ({ params }: { params: { coinId: string } }) => {
   }, [coinId]);
 
   if (!coinData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col w-full gap-4 mt-12">
+        <div className="flex justify-around items-start flex-wrap gap-4 lg:gap-24">
+          <div className="flex flex-col justify-center items-center w-5/6 md:w-1/3 lg:w-1/4 gap-3 shrink-0">
+            <div className="bg-card rounded-lg p-8 flex flex-col items-center justify-center gap-4 w-full">
+              <Skeleton className="w-24 h-24 rounded-full" />
+              <Skeleton className="w-3/4 h-6" />
+            </div>
+            <div className="flex justify-center items-center bg-card rounded-lg py-2 w-full gap-2">
+              <Skeleton className="w-12 h-6" />
+              <Skeleton className="w-3/4 h-4" />
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center w-5/6 md:w-1/3 lg:w-1/4 bg-card rounded-lg gap-4 p-8 shrink-0">
+            <Skeleton className="w-3/4 h-6" />
+            <div className="flex justify-start items-center gap-3 w-full">
+              <Skeleton className="w-10 h-6" />
+              <Skeleton className="w-1/4 h-6" />
+            </div>
+            <Skeleton className="w-10 h-10" />
+            <div className="flex justify-between items-start gap-4 w-full">
+              <div className="flex flex-col gap-1">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-3/4 h-4" />
+                <Skeleton className="w-1/2 h-4" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Skeleton className="w-1/2 h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-3/4 h-4" />
+                <Skeleton className="w-1/2 h-4" />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-start items-center w-5/6 lg:w-1/4 bg-card rounded-lg gap-2 p-8 shrink-0">
+            <Skeleton className="w-full h-4" />{" "}
+            <Skeleton className="w-full h-4" />{" "}
+            <Skeleton className="w-full h-4" />{" "}
+            <Skeleton className="w-full h-4" />{" "}
+          </div>
+        </div>
+        <div className="flex flex-col justify-start items-center lg:items-start px-16 py-8 mt-16">
+          <Skeleton className="w-1/4 h-6" />
+          <Skeleton className="w-full h-24" />
+        </div>
+      </div>
+    );
   }
   const price_change_percentage =
     coinData.market_data.price_change_percentage_30d;
