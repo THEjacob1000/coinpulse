@@ -8,19 +8,21 @@ import { useEffect, useState } from "react";
 import CoinForm from "@/components/CoinForm";
 import PortfolioCoin from "@/components/PortfolioCoin";
 
+export type ValueAtBuy = {
+  usd: number;
+  eur: number;
+  aud: number;
+  inr: number;
+  gbp: number;
+  jpy: number;
+};
+
 export type PortfolioData = {
   data: {
     coin: Coin;
-    amount: number;
+    amountOwned: number;
     dateAdded: string;
-    valueAtBuy: {
-      usd: number;
-      eur: number;
-      aud: number;
-      inr: number;
-      gbp: number;
-      jpy: number;
-    };
+    valueAtBuy: ValueAtBuy;
   };
 };
 
@@ -47,16 +49,16 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col px-12 md:px-24">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center w-11/12 mx-auto">
         <div className="text-xl">Portfolio</div>
         <CoinForm cryptoData={cryptoData} />
       </div>
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-col justify-center items-center w-full mt-6">
         {portfolioCoins &&
           portfolioCoins.map((coin, index) => {
             if (!coin) return null;
             return (
-              <div key={index} className="m-4">
+              <div key={index} className="m-4 w-11/12">
                 <PortfolioCoin portData={coin} />
               </div>
             );
