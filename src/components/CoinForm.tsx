@@ -64,19 +64,22 @@ const FormSchema = z.object({
 interface CoinFormProps {
   cryptoData: Coin[];
 }
+
 const CoinForm = ({ cryptoData }: CoinFormProps) => {
-  const [pastPrice, setPastPrice] = useState<number>(1);
   const [coin, setCoin] = useState<Coin>();
   useEffect(() => {
     setCoin(cryptoData[0]);
   }, [cryptoData]);
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      coinId: cryptoData[0]?.id || "",
+      amount: 0,
+      dateAdded: new Date(),
+    },
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(format(data.dateAdded, "dd-MM-yyyy"));
-
+    // console.log(format(data.dateAdded, "dd-MM-yyyy"));
     const fetchPrice = async () => {
       try {
         const response = await axios.get(
@@ -119,6 +122,7 @@ const CoinForm = ({ cryptoData }: CoinFormProps) => {
             }
           );
           // console.log("Portfolio data added:", response.data);
+          window.location.reload();
           toast({
             title: "Coin added successfully",
             description: "Your coin data has been saved.",
@@ -135,6 +139,7 @@ const CoinForm = ({ cryptoData }: CoinFormProps) => {
       addPortfolioData();
     });
   }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
