@@ -44,7 +44,7 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
     updatedCoinData.current_price * currency * portData.amountOwned;
   const difference = currentPrice - startingPrice;
   return (
-    <div className="flex md:hidden flex-col bg-accent/40 rounded-lg justify-center items-center p-6">
+    <div className="flex lg:hidden flex-col bg-accent/40 rounded-lg justify-center items-center p-6">
       <div className="flex justify-between items-center w-full">
         <div className="flex flex-col">
           <div className="text-lg">

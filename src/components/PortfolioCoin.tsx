@@ -35,7 +35,7 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
   const currentPrice =
     coin.current_price * currency * portData.amountOwned;
   return (
-    <div className="md:flex items-center bg-accent/40 min-w-full hidden">
+    <div className="lg:flex items-center bg-accent/40 min-w-full hidden">
       <div className="flex flex-col min-w-1/6 justify-center items-center p-4 gap-8 flex-grow">
         <div className="bg-primary/10 p-4 rounded-md">
           <Image
