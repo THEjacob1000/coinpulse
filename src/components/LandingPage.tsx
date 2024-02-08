@@ -76,7 +76,7 @@ const LandingPage = () => {
           ></div>
           <button
             className={cn(
-              "relative w-full font-semibold z-10",
+              "relative w-full font-semibold",
               pageType === "coins" && "text-primary-foreground"
             )}
             onClick={() => setPageType("coins")}
@@ -85,7 +85,7 @@ const LandingPage = () => {
           </button>
           <button
             className={cn(
-              "relative w-full font-semibold z-10 transition-colors duration-300 ease-in-out",
+              "relative w-full font-semibold transition-colors duration-300 ease-in-out",
               pageType === "converter" && "text-primary-foreground"
             )}
             onClick={() => setPageType("converter")}
