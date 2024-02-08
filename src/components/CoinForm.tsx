@@ -74,7 +74,6 @@ const CoinForm = ({ cryptoData }: CoinFormProps) => {
     resolver: zodResolver(FormSchema),
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    // console.log("submitted", data);
     console.log(format(data.dateAdded, "dd-MM-yyyy"));
 
     const fetchPrice = async () => {
@@ -86,59 +85,54 @@ const CoinForm = ({ cryptoData }: CoinFormProps) => {
           )}`
         );
         const coinData = await response.data;
-        // console.log(coinData);
-        setPastPrice(coinData);
+        return coinData;
       } catch (error) {
         console.error("Error:", error);
+        return 1;
       }
     };
-    fetchPrice();
-    const newCoin = cryptoData.find(
-      (coin) => coin.id === data.coinId
-    );
-    const portfolioData = {
-      data: {
-        coin: newCoin,
-        dateAdded: new Date(data.dateAdded),
-        amountOwned: data.amount,
-        valueAtBuy: pastPrice,
-      },
-    };
-    const addPortfolioData = async () => {
-      try {
-        const response = await axios.post(
-          "/api/setPortfolio",
-          JSON.stringify(portfolioData),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log("Portfolio data added:", response.data);
-        toast({
-          title: "Coin added successfully",
-          description: "Your coin data has been saved.",
-        });
-      } catch (error) {
-        console.error("Error adding coin data:", error);
-        toast({
-          title: "Error",
-          description: "There was a problem saving your coin data.",
-        });
-      }
-    };
-    addPortfolioData();
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">
-    //         {JSON.stringify(data, null, 2)}
-    //       </code>
-    //     </pre>
-    //   ),
-    // });
+
+    fetchPrice().then((fetchedPrice) => {
+      const newCoin = cryptoData.find(
+        (coin) => coin.id === data.coinId
+      );
+      const portfolioData = {
+        data: {
+          coin: newCoin,
+          dateAdded: new Date(data.dateAdded),
+          amountOwned: data.amount,
+          valueAtBuy: fetchedPrice,
+        },
+      };
+      // console.log(portfolioData);
+
+      const addPortfolioData = async () => {
+        try {
+          const response = await axios.post(
+            "/api/setPortfolio",
+            JSON.stringify(portfolioData),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          // console.log("Portfolio data added:", response.data);
+          toast({
+            title: "Coin added successfully",
+            description: "Your coin data has been saved.",
+          });
+        } catch (error) {
+          console.error("Error adding coin data:", error);
+          toast({
+            title: "Error",
+            description: "There was a problem saving your coin data.",
+          });
+        }
+      };
+
+      addPortfolioData();
+    });
   }
   return (
     <Dialog>

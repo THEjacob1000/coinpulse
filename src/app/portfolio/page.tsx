@@ -18,12 +18,10 @@ export type ValueAtBuy = {
 };
 
 export type PortfolioData = {
-  data: {
-    coin: Coin;
-    amountOwned: number;
-    dateAdded: string;
-    valueAtBuy: ValueAtBuy;
-  };
+  coin: Coin;
+  amountOwned: number;
+  dateAdded: string;
+  valueAtBuy: ValueAtBuy;
 };
 
 const Page = () => {

@@ -14,7 +14,7 @@ interface PortfolioCoinProps {
 }
 
 const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
-  const coin = portData.data.coin;
+  const coin = portData.coin;
   const selectedCurrency = useCryptoStore((state) => state.currency);
   const currencies = {
     USD: 1,
@@ -28,10 +28,11 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
   const currency = currencies[selectedCurrency.currency];
   const currencyKey =
     selectedCurrency.currency.toLowerCase() as keyof ValueAtBuy;
+  // console.log(portData);
   const startingPrice =
-    portData.data.valueAtBuy[currencyKey] * portData.data.amountOwned;
+    portData.valueAtBuy[currencyKey] * portData.amountOwned;
   const currentPrice =
-    coin.current_price * currency * portData.data.amountOwned;
+    coin.current_price * currency * portData.amountOwned;
   return (
     <div className="flex items-center bg-accent/40 min-w-full">
       <div className="flex flex-col min-w-1/6 justify-center items-center p-4 gap-8 flex-grow">
@@ -116,12 +117,7 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
             <div className="flex flex-col gap-2 justify-center items-stretch">
               <div>Coin Amount</div>
               <div className="text-cyan-400 flex justify-center">
-                {selectedCurrency.symbol +
-                  Math.floor(
-                    coin.current_price *
-                      currency *
-                      portData.data.amountOwned
-                  ).toLocaleString()}
+                {portData.amountOwned.toFixed(3)}
               </div>
             </div>
             <div className="flex flex-col gap-2 justify-center items-stretch">
@@ -175,7 +171,7 @@ const PortfolioCoin = ({ portData }: PortfolioCoinProps) => {
             <div className="flex flex-col gap-2 justify-center items-stretch">
               <div>Purchase date</div>
               <div className="text-cyan-400 flex justify-end">
-                {format(portData.data.dateAdded, "dd MMM yyyy")}
+                {format(portData.dateAdded, "dd MMM yyyy")}
               </div>
             </div>
           </div>
