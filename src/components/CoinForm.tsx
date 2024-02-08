@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -309,7 +310,9 @@ const CoinForm = ({ cryptoData }: CoinFormProps) => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Save and Continue</Button>
+              <DialogClose>
+                <Button type="submit">Save and Continue</Button>
+              </DialogClose>
             </form>
           </Form>
         </div>
