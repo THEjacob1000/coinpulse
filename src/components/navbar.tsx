@@ -56,34 +56,38 @@ const Navbar = () => {
           </div>
         </Link>
         <div className="w-[265px] h-12 justify-start items-start gap-6 hidden md:inline-flex">
-          <Button
-            className="px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40"
-            variant={"ghost"}
-          >
-            <Home className="w-6 h-6" />
-            <div
+          <Link href="/">
+            <Button
+              className="px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40"
+              variant={"ghost"}
+            >
+              <Home className="w-6 h-6" />
+              <div
+                className={cn(
+                  "text-base font-medium font-['Space Grotesk']",
+                  pathname === "/" &&
+                    "font-bold underline-offset-4 underline"
+                )}
+              >
+                Home
+              </div>
+            </Button>
+          </Link>
+          <Link href="/portfolio">
+            <Button
               className={cn(
-                "text-base font-medium font-['Space Grotesk']",
-                pathname === "/" &&
+                "px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40",
+                pathname === "/portfolio" &&
                   "font-bold underline-offset-4 underline"
               )}
+              variant={"ghost"}
             >
-              Home
-            </div>
-          </Button>
-          <Button
-            className={cn(
-              "px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40",
-              pathname === "/portfolio" &&
-                "font-bold underline-offset-4 underline"
-            )}
-            variant={"ghost"}
-          >
-            <Layers className="w-6 h-6" />
-            <div className="text-opacity-50 text-base font-normal font-['Space Grotesk']">
-              Portfolio
-            </div>
-          </Button>
+              <Layers className="w-6 h-6" />
+              <div className="text-opacity-50 text-base font-normal font-['Space Grotesk']">
+                Portfolio
+              </div>
+            </Button>
+          </Link>
         </div>
         <div className="flex justify-between w-1/4 items-center gap-2">
           <NavSearch />

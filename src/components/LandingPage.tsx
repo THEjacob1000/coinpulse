@@ -17,10 +17,10 @@ const LandingPage = () => {
   const [timeframe, setTimeframe] = useState(3);
   const [prices, setPrices] = useState<number[][]>([]);
   const [totalVolumes, setTotalVolumes] = useState<number[][]>([]);
-  const [cryptoData, setCryptoData] = useState<Coin[]>([]);
   const [compare, setCompare] = useState<boolean>(
     useCryptoStore.getState().compare
   );
+  const cryptoData = useCryptoStore((state) => state.cryptoData);
   const pageType = useCryptoStore((state) => state.pageType);
   const setPageType = useCryptoStore((state) => state.changePageType);
   const sliderPosition =
@@ -57,17 +57,7 @@ const LandingPage = () => {
         console.error("Error:", error);
       }
     };
-    const fetchCryptoData = async () => {
-      try {
-        const response = await axios.get<Coin[]>("/api/cryptoData");
-        setCryptoData(response.data);
-        useCryptoStore.getState().changeCryptoData(response.data);
-      } catch (error) {
-        console.error("Error fetching crypto data:", error);
-      }
-    };
     fetchBitcoinData();
-    fetchCryptoData();
   }, [currency]);
 
   const toggleCompare = () => {

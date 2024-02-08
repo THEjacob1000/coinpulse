@@ -5,6 +5,7 @@ import { Zap } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Progress } from "./ui/progress";
+import { Coin } from "./CoinCard";
 
 type MarketData = {
   active_cryptocurrencies: number;
@@ -21,7 +22,7 @@ type MarketData = {
 
 const MarketData = () => {
   const [marketData, setMarketData] = useState<MarketData>();
-  const cryptoData = useCryptoStore((state) => state.cryptoData);
+  const [cryptoData, setCryptoData] = useState<Coin[]>();
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
@@ -32,6 +33,16 @@ const MarketData = () => {
         console.error("Error:", error);
       }
     };
+    const fetchCryptoData = async () => {
+      try {
+        const response = await axios.get<Coin[]>("/api/cryptoData");
+        setCryptoData(response.data);
+        useCryptoStore.getState().changeCryptoData(response.data);
+      } catch (error) {
+        console.error("Error fetching crypto data:", error);
+      }
+    };
+    fetchCryptoData();
     fetchMarketData();
   }, []);
   if (!marketData || !cryptoData) return null;
@@ -73,8 +84,8 @@ const MarketData = () => {
         <Image
           src={cryptoData[0].image}
           alt="Bitcoin"
-          width={16}
-          height={16}
+          width={28}
+          height={28}
           className="w-7 h-7 mr-1"
         />
         <div>{Math.floor(marketData.market_cap_percentage.btc)}%</div>
@@ -88,8 +99,8 @@ const MarketData = () => {
         <Image
           src={cryptoData[1].image}
           alt="Ethereum"
-          width={16}
-          height={16}
+          width={28}
+          height={28}
           className="w-7 h-7 mr-1"
         />
         <div>{Math.floor(marketData.market_cap_percentage.eth)}%</div>
