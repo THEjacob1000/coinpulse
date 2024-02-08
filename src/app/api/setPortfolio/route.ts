@@ -1,42 +1,60 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
-type PortfolioData = {
-  data: Array<{
-    name: string;
-    dateAdded: Date;
-    amountOwned: number;
-    valueAtBuy: number;
-  }>;
+type PortfolioDataItem = {
+  name: string;
+  dateAdded: Date;
+  amountOwned: number;
+  valueAtBuy: number;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
-    try {
-      const portfolioData: PortfolioData = JSON.parse(req.body);
+type PortfolioData = {
+  data: PortfolioDataItem[];
+};
 
-      const client = await clientPromise;
-      const db = client.db("coins");
+export async function POST(req: NextRequest) {
+  if (req.method !== "POST") {
+    return new NextResponse(null, {
+      status: 405,
+      statusText: "Method Not Allowed",
+    });
+  }
 
-      const response = await db
-        .collection("portfolioData")
-        .insertOne(portfolioData);
+  try {
+    const portfolioData: PortfolioData = await req.json();
 
-      res.status(200).json({
+    const client = await clientPromise;
+    const db = client.db("coins");
+
+    const response = await db
+      .collection("portfolioData")
+      .insertOne(portfolioData);
+
+    return new NextResponse(
+      JSON.stringify({
         message: "Portfolio data added successfully",
-        id: response.insertedId,
-      });
-    } catch (error) {
-      console.error("Failed to insert portfolio data", error);
-      res
-        .status(500)
-        .json({ error: "Failed to insert portfolio data" });
-    }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+        id: response.insertedId.toString(),
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error: any) {
+    console.error("Failed to insert portfolio data", error);
+    return new NextResponse(
+      JSON.stringify({
+        error: "Failed to insert portfolio data",
+        details: error.message,
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 }

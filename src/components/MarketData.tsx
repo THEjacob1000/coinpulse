@@ -84,8 +84,8 @@ const MarketData = () => {
         <Image
           src={cryptoData[0].image}
           alt="Bitcoin"
-          width={16}
-          height={16}
+          width={28}
+          height={28}
           className="w-7 h-7 mr-1"
         />
         <div>{Math.floor(marketData.market_cap_percentage.btc)}%</div>
@@ -99,8 +99,8 @@ const MarketData = () => {
         <Image
           src={cryptoData[1].image}
           alt="Ethereum"
-          width={16}
-          height={16}
+          width={28}
+          height={28}
           className="w-7 h-7 mr-1"
         />
         <div>{Math.floor(marketData.market_cap_percentage.eth)}%</div>
