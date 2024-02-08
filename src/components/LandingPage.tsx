@@ -6,7 +6,7 @@ import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
 import { cn } from "@/lib/utils";
 import CoinCarousel from "./CoinCarousel";
-import { LineChart, X } from "lucide-react";
+import { ChevronUp, LineChart, X } from "lucide-react";
 import { Currency, useCryptoStore } from "@/lib/store";
 import { Coin } from "./CoinCard";
 import PricesCompare from "./PricesCompare";
@@ -181,6 +181,18 @@ const LandingPage = () => {
         <Converter />
       )}
       <CoinsTable coins={cryptoData} />
+      <div className="w-full flex justify-center items-center">
+        <Button
+          onClick={() =>
+            window.scrollTo({ top: 0, behavior: "smooth" })
+          }
+          className="flex flex-col h-12"
+          variant={"outline"}
+        >
+          <ChevronUp />
+          Back to top
+        </Button>
+      </div>
     </div>
   );
 };

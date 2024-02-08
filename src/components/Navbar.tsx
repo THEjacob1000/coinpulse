@@ -60,6 +60,7 @@ const Navbar = () => {
             <Button
               className="px-4 py-3 rounded-md justify-center items-center gap-2 flex hover:bg-background/40"
               variant={"ghost"}
+              aria-label="home"
             >
               <Home className="w-6 h-6" />
               <div
@@ -81,6 +82,7 @@ const Navbar = () => {
                   "font-bold underline-offset-4 underline"
               )}
               variant={"ghost"}
+              aria-label="home"
             >
               <Layers className="w-6 h-6" />
               <div className="text-opacity-50 text-base font-normal font-['Space Grotesk']">

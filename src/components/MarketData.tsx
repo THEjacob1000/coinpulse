@@ -95,6 +95,9 @@ const MarketData = () => {
           value={Math.floor(marketData.market_cap_percentage.btc)}
           className="h-2 w-20 bg-slate-600/80"
           indicatorColor="bg-orange-400"
+          aria-label={`Bitcoin market cap percentage progress bar at %${Math.floor(
+            marketData.market_cap_percentage.btc
+          )}`}
         />
       </div>
       <div className="flex items-center gap-1">
@@ -110,6 +113,9 @@ const MarketData = () => {
           value={Math.floor(marketData.market_cap_percentage.eth)}
           className="h-2 w-20 bg-slate-600/80"
           indicatorColor="bg-blue-400"
+          aria-label={`Ethereum market cap percentage progress bar at %${Math.floor(
+            marketData.market_cap_percentage.eth
+          )}`}
         />
       </div>
     </div>

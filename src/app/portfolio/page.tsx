@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import CoinForm from "@/components/CoinForm";
 import PortfolioCoin from "@/components/PortfolioCoin";
 import PortfolioCoinMobile from "@/components/PortfolioCoinMobile";
+import { Button } from "@/components/ui/button";
+import { ChevronUp } from "lucide-react";
 
 export type ValueAtBuy = {
   usd: number;
@@ -64,6 +66,20 @@ const Page = () => {
             );
           })}
       </div>
+      {portfolioCoins.length > 2 && (
+        <div className="w-full flex justify-center items-center mb-8">
+          <Button
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+            className="flex flex-col h-12"
+            variant={"outline"}
+          >
+            <ChevronUp />
+            Back to top
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
