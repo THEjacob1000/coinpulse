@@ -60,7 +60,7 @@ const LandingPage = () => {
       }
     };
     fetchBitcoinData();
-  }, [currency, prices1]);
+  }, [currency, prices1, pageType]);
 
   const toggleCompare = () => {
     useCryptoStore.getState().changeCompare();
